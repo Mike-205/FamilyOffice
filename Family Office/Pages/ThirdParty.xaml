@@ -1,0 +1,288 @@
+﻿<Page x:Class="Family_Office.pages.ThirdParty"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Family_Office.pages"
+      mc:Ignorable="d"
+      Background="White"
+      d:DesignHeight="1050" d:DesignWidth="800"
+      Title="ThirdParty">
+
+
+    <Page.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="Navy"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="Background" Value="#F8F8F8"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="Navy"/>
+        </Style>
+    </Page.Resources>
+    
+    <Grid>
+        <Image Source="/Images/Background image .jpg" 
+               Stretch="UniformToFill"
+               Opacity="0.8"/>
+        <DockPanel>
+            <!-- Docked Header -->
+            <Border DockPanel.Dock="Top"
+                    Background="White"
+                    Opacity=".9"
+                    Padding="20,10">
+                <TextBlock Text="Third Party"
+                    FontSize="24"
+                    FontWeight="Bold"/>
+            </Border>
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Main Two-Column Layout -->
+                    <Grid Grid.Row="1" Background="white" Opacity=".85">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Left Column -->
+                        <StackPanel Grid.Column="0" Margin="10">
+                            <!-- Personal Information Section -->
+                            <GroupBox Header="Personal Information" Margin="0,0,0,20">
+                                <Grid Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Party Type and ID -->
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Margin="0,0,5,10">
+                                            <TextBlock Text="Party Type" Margin="0,0,0,5"/>
+                                            <ComboBox Height="30">
+                                                <ComboBoxItem Content="Buyer"/>
+                                                <ComboBoxItem Content="Seller"/>
+                                                <ComboBoxItem Content="Partner"/>
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1" Margin="5,0,0,10">
+                                            <TextBlock Text="Party ID" Margin="0,0,0,5"/>
+                                            <TextBox IsReadOnly="True" Height="30"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Full Name -->
+                                    <StackPanel Grid.Row="1" Margin="0,0,0,10">
+                                        <TextBlock Text="Full Name" Margin="0,0,0,5"/>
+                                        <TextBox Height="30"/>
+                                    </StackPanel>
+
+                                    <!-- Date of First Association -->
+                                    <StackPanel Grid.Row="2" Margin="0,0,0,10">
+                                        <TextBlock Text="Date of First Association" Margin="0,0,0,5"/>
+                                        <DatePicker Height="30"/>
+                                    </StackPanel>
+
+                                    <!-- Photo Upload -->
+                                    <StackPanel Grid.Row="3">
+                                        <TextBlock Text="Photo" Margin="0,0,0,5"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Border Height="150" Width="150" 
+                                                    BorderBrush="Gray" 
+                                                    BorderThickness="1" 
+                                                    Grid.Column="0">
+                                                <Grid>
+                                                    <Image x:Name="PhotoImage"/>
+                                                </Grid>
+                                            </Border>
+
+                                            <Button Content="Upload Photo"
+                                                    Grid.Column="1"
+                                                    Height="30"
+                                                    Margin="40,60,0,0"
+                                                    Padding="15,0"
+                                                    VerticalAlignment="Top"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                            </GroupBox>
+
+                            <!-- Contact Information Section -->
+                            <GroupBox Header="Contact Information" Margin="0,0,0,20">
+                                <StackPanel Margin="10">
+                                    <!-- Main Mobile Number -->
+                                    <TextBlock Text="Main Mobile Number" Margin="0,0,0,5"/>
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ComboBox Width="60" Height="30" Margin="0,0,5,0"/>
+                                        <TextBox Grid.Column="1" Height="30"/>
+                                    </Grid>
+
+                                    <!-- Alternative Mobile Number -->
+                                    <TextBlock Text="Alternative Mobile Number" Margin="0,0,0,5"/>
+                                    <Grid Margin="0,0,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ComboBox Width="60" Height="30" Margin="0,0,5,0"/>
+                                        <TextBox Grid.Column="1" Height="30"/>
+                                    </Grid>
+
+                                    <!-- Email -->
+                                    <TextBlock Text="Email Address" Margin="0,0,0,5"/>
+                                    <TextBox Height="30" Margin="0,0,0,10"/>
+
+                                    <!-- Address -->
+                                    <TextBlock Text="Home Address" Margin="0,0,0,5"/>
+                                    <TextBox Height="60" TextWrapping="Wrap" AcceptsReturn="True"/>
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+
+                        <!-- Right Column -->
+                        <StackPanel Grid.Column="1" Margin="10">
+                            <!-- Additional Details Section -->
+                            <GroupBox Header="Additional Details" Margin="0,0,0,20">
+                                <StackPanel Margin="10">
+                                    <!-- Notes -->
+                                    <TextBlock Text="Notes" Margin="0,0,0,5"/>
+                                    <TextBox Height="150" 
+                                             TextWrapping="Wrap" 
+                                             AcceptsReturn="True" 
+                                             VerticalScrollBarVisibility="Auto"
+                                             Margin="0,0,0,10"/>
+
+                                    <!-- Document Upload -->
+                                    <TextBlock Text="Documents" Margin="0,0,0,5"/>
+                                    <Button Content="Upload Document" 
+                                            Height="30" 
+                                            HorizontalAlignment="Left" 
+                                            Padding="20,0"
+                                            Margin="0,0,0,10"/>
+
+                                    <!-- Status -->
+                                    <TextBlock Text="Current Status" Margin="0,0,0,5"/>
+                                    <ComboBox Height="30">
+                                        <ComboBoxItem Content="Active"/>
+                                        <ComboBoxItem Content="Inactive"/>
+                                    </ComboBox>
+
+                                    <!-- Identification Section -->
+                                    <GroupBox Header="Identification" Margin="0,0,0,20">
+                                        <StackPanel Margin="10">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                                    <TextBlock Text="Aadhar Card No." Margin="0,0,0,5"/>
+                                                    <TextBox Height="30"/>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                                    <TextBlock Text="PAN Card No." Margin="0,0,0,5"/>
+                                                    <TextBox Height="30"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <TextBlock Text="Relation to Us" Margin="0,10,0,5"/>
+                                            <TextBox Height="30"/>
+                                        </StackPanel>
+                                    </GroupBox>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <!-- Financial Information Section -->
+                            <GroupBox Header="Financial Information" Margin="0,0,0,20">
+                                <Grid Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="Opening Balance" Margin="0,0,0,5"/>
+                                        <TextBox Height="30"/>
+                                    </StackPanel>
+
+                                    <ComboBox Grid.Column="1" 
+                                              Width="50" 
+                                              Height="30"
+                                              Margin="10,21,0,0">
+                                        <ComboBoxItem Content="DR"/>
+                                        <ComboBoxItem Content="CR"/>
+                                    </ComboBox>
+                                </Grid>
+                            </GroupBox>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Grid.Row="2" 
+                           Orientation="Horizontal" 
+                           HorizontalAlignment="Right" 
+                           Margin="0,30,0,0">
+                        <Button Content="Save" 
+                                Width="100" 
+                                Height="35" 
+                                Background="Navy" 
+                                Foreground="White"
+                                Margin="0,0,10,0"/>
+
+                        <Button Content="Cancel" 
+                                Width="100" 
+                                Height="35"/>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+        </DockPanel>
+    </Grid>
+</Page>
+

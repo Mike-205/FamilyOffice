@@ -1,0 +1,383 @@
+﻿<Page x:Class="Family_Office.pages.GeneralSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Family_Office.pages"
+      mc:Ignorable="d" 
+      Background="White"
+      d:DesignHeight="700" d:DesignWidth="800"
+      Title="GeneralSettingsPage">
+
+    <Page.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="Navy"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="Navy"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Image Source="/Images/Background image .jpg"
+               Stretch="UniformToFill"
+               Opacity="0.8"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" 
+                    Background="#F5F5F5" 
+                    BorderBrush="#E0E0E0" 
+                    BorderThickness="0,0,0,1" 
+                    Opacity="0.9"
+                    Padding="20,10">
+                <DockPanel>
+                    <TextBlock Text="General Settings" 
+                             FontSize="24" 
+                             FontWeight="Bold"/>
+                </DockPanel>
+            </Border>
+
+            <!-- Main Content -->
+            <TabControl Margin="10" Grid.Row="1">
+                <TabItem Header="General Settings">
+                    <ScrollViewer Padding="20" 
+                                  VerticalScrollBarVisibility="Auto">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Left Column - Date Settings -->
+                            <StackPanel Grid.Column="0" Background="White" Opacity=".85">
+                                <GroupBox Header="Date Format Settings">
+                                    <StackPanel>
+                                        <DockPanel>
+                                            <TextBlock Text="Date Format:" Width="100"/>
+                                            <ComboBox IsEnabled="False">
+                                                <ComboBoxItem Content="DD/MM/YYYY" IsSelected="True"/>
+                                            </ComboBox>
+                                        </DockPanel>
+
+                                        <TextBlock Text="Preview:" Margin="5,10,5,0"/>
+                                        <Border Background="White" 
+                                                BorderBrush="#D3D3D3" 
+                                                BorderThickness="1" 
+                                                Margin="5">
+                                            <TextBlock Text="01/12/2024" 
+                                                Margin="5" 
+                                                FontFamily="Consolas"/>
+                                        </Border>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="Default Currency" Margin="5,15,5,15">
+                                    <StackPanel>
+                                        <DockPanel>
+                                            <TextBlock Text="Base Currency:" VerticalAlignment="Center" Width="100"/>
+                                            <ComboBox>
+                                                <ComboBoxItem Content="USD - US Dollar"/>
+                                                <ComboBoxItem Content="EUR - Euro"/>
+                                                <ComboBoxItem Content="GBP - British Pound"/>
+                                                <ComboBoxItem Content="JPY - Japanese Yen"/>
+                                            </ComboBox>
+                                        </DockPanel>
+
+                                        <DockPanel>
+                                            <TextBlock Text="Display Format:" VerticalAlignment="Center" Width="100"/>
+                                            <ComboBox>
+                                                <ComboBoxItem Content="Symbol (£)" IsSelected="True"/>
+                                                <ComboBoxItem Content="Code (GBP)"/>
+                                                <ComboBoxItem Content="Both (GBP £)"/>
+                                            </ComboBox>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="Display Options">
+                                    <StackPanel>
+                                        <CheckBox Content="Show exchange rates in lists" 
+                                                  Margin="5"/>
+                                        <CheckBox Content="Always show base currency equivalent" 
+                                                  Margin="5"/>
+                                        <CheckBox Content="Use thousands separator" 
+                                                  IsChecked="True" 
+                                                  Margin="5"/>
+                                        <DockPanel>
+                                            <TextBlock Text="Decimal Places:" Width="100"/>
+                                            <ComboBox>
+                                                <ComboBoxItem Content="2" IsSelected="True"/>
+                                                <ComboBoxItem Content="3"/>
+                                                <ComboBoxItem Content="4"/>
+                                            </ComboBox>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </GroupBox>
+                            </StackPanel>
+
+                            <!-- Right Column - Currency Management -->
+                            <StackPanel Grid.Column="1" Background="White" Opacity=".85">
+                                <GroupBox Header="Exchange Rate Management">
+                                    <StackPanel>
+                                        <TextBlock Text="Active Currencies and Exchange Rates" 
+                                                   FontWeight="Bold"/>
+
+                                        <DataGrid Height="200">
+                                            <DataGrid.Columns>
+                                                <DataGridCheckBoxColumn Header="Active" 
+                                                  Width="60"
+                                                  Binding="{Binding IsActive}"/>
+                                                <DataGridTextColumn Header="Currency" 
+                                              Width="100"
+                                              Binding="{Binding CurrencyName}"/>
+                                                <DataGridTextColumn Header="Code" 
+                                              Width="60"
+                                              Binding="{Binding CurrencyCode}"/>
+                                                <DataGridTextColumn Header="Exchange Rate" 
+                                              Width="*"
+                                              Binding="{Binding ExchangeRate}"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                        <DockPanel Margin="0,15">
+                                            <Button Content="Add Currency" HorizontalAlignment="Left"/>
+                                            <Button Content="Update Rates" HorizontalAlignment="Right"/>
+                                        </DockPanel>
+
+                                        <GroupBox Header="Quick Rate Update" Margin="5,15,5,0">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+
+                                                <TextBlock Text="From:" Grid.Column="0"/>
+                                                <ComboBox Grid.Column="1"/>
+                                                <TextBlock Text="To:" Grid.Column="2"/>
+                                                <ComboBox Grid.Column="3"/>
+
+                                                <TextBlock Text="Rate:" Grid.Row="1"/>
+                                                <TextBox Grid.Row="1" Grid.Column="1"/>
+                                                <Button Content="Update"
+                                    Padding="10,5,10,5"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,0,0,0"
+                                    Grid.Row="2" 
+                                    Grid.Column="3"/>
+                                            </Grid>
+                                        </GroupBox>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <!-- Action Buttons -->
+                                <Border Margin="0,8,0,0" 
+                                        Padding="10">
+                                    <StackPanel Orientation="Horizontal" 
+                                                HorizontalAlignment="Right" VerticalAlignment="Center">
+                                        <Button Content="Save" 
+                                                Width="100" 
+                                                Height="30" 
+                                                Margin="5"
+                                                Background="Navy"
+                                                Foreground="White"
+                                                Click="BtnSave_Click"/>
+                                        <Button Content="Cancel" 
+                                                Width="100" 
+                                                Height="30" 
+                                                Margin="5"
+                                                Click="BtnCancel_Click"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                    
+                </TabItem>
+                <TabItem Header="User Inteface">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Grid Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Left Column - Typography and Colors -->
+                            <StackPanel Grid.Column="0" Background="White" Opacity=".85">
+                                <GroupBox Header="Typography">
+                                    <StackPanel>
+                                        <DockPanel>
+                                            <TextBlock Text="Font Family:" Width="100" VerticalAlignment="Center"/>
+                                            <ComboBox>
+                                                <ComboBoxItem Content="Arial" IsSelected="True"/>
+                                                <ComboBoxItem Content="Helvetica"/>
+                                                <ComboBoxItem Content="Segoe UI"/>
+                                            </ComboBox>
+                                        </DockPanel>
+
+                                        <DockPanel>
+                                            <TextBlock Text="Body Text Size:" Width="100"  VerticalAlignment="Center"/>
+                                            <ComboBox>
+                                                <ComboBoxItem Content="10pt" IsSelected="True"/>
+                                                <ComboBoxItem Content="11pt"/>
+                                                <ComboBoxItem Content="12pt"/>
+                                            </ComboBox>
+                                        </DockPanel>
+
+                                        <DockPanel>
+                                            <TextBlock Text="Header Size:" Width="100"  VerticalAlignment="Center"/>
+                                            <ComboBox>
+                                                <ComboBoxItem Content="12pt" IsSelected="True"/>
+                                                <ComboBoxItem Content="14pt"/>
+                                                <ComboBoxItem Content="16pt"/>
+                                            </ComboBox>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="Color Scheme">
+                                    <StackPanel>
+                                        <DockPanel>
+                                            <TextBlock Text="Primary Color:" Width="100"  VerticalAlignment="Center"/>
+                                            <ComboBox>
+                                                <ComboBoxItem Content="Navy Blue (#000080)" IsSelected="True"/>
+                                                <ComboBoxItem Content="Dark Blue (#00008B)"/>
+                                                <ComboBoxItem Content="Royal Blue (#4169E1)"/>
+                                            </ComboBox>
+                                        </DockPanel>
+
+                                        <DockPanel>
+                                            <TextBlock Text="Background:" Width="100"  VerticalAlignment="Center"/>
+                                            <ComboBox>
+                                                <ComboBoxItem Content="Light Gray (#D3D3D3)" IsSelected="True"/>
+                                                <ComboBoxItem Content="White (#FFFFFF)"/>
+                                                <ComboBoxItem Content="Silver (#C0C0C0)"/>
+                                            </ComboBox>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="Accessibility">
+                                    <StackPanel>
+                                        <CheckBox Content="High Contrast Mode" Margin="5"/>
+                                        <CheckBox Content="Larger Text Mode" Margin="5"/>
+                                        <DockPanel>
+                                            <TextBlock Text="Scale:" Width="100"/>
+                                            <ComboBox>
+                                                <ComboBoxItem Content="100%" IsSelected="True"/>
+                                                <ComboBoxItem Content="125%"/>
+                                                <ComboBoxItem Content="150%"/>
+                                            </ComboBox>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </GroupBox>
+                            </StackPanel>
+
+                            <!-- Right Column - Layout and Interaction -->
+                            <StackPanel Grid.Column="1" Background="white" Opacity=".85">
+                                <!-- Rest of your existing right column content -->
+                                <GroupBox Header="Layout and Spacing">
+                                    <!-- Existing content -->
+                                    <StackPanel>
+                                        <DockPanel>
+                                            <TextBlock Text="Margin Size:" Width="100"  VerticalAlignment="Center"/>
+                                            <ComboBox>
+                                                <ComboBoxItem Content="5px" IsSelected="True"/>
+                                                <ComboBoxItem Content="8px"/>
+                                                <ComboBoxItem Content="10px"/>
+                                            </ComboBox>
+                                        </DockPanel>
+
+                                        <DockPanel>
+                                            <TextBlock Text="Border Width:" Width="100"  VerticalAlignment="Center"/>
+                                            <ComboBox SelectionChanged="ComboBox_SelectionChanged">
+                                                <ComboBoxItem Content="0.5px" IsSelected="True"/>
+                                                <ComboBoxItem Content="0.8px"/>
+                                                <ComboBoxItem Content="1.0px"/>
+                                            </ComboBox>
+                                        </DockPanel>
+
+                                        <DockPanel>
+                                            <TextBlock Text="Bacground image:" Width="100"  VerticalAlignment="Center"/>
+                                            <ComboBox>
+                                                <ComboBoxItem Content="image 1" IsSelected="True"/>
+                                                <ComboBoxItem Content="image 2"/>
+                                                <ComboBoxItem Content="image 3"/>
+                                            </ComboBox>
+                                        </DockPanel>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <GroupBox Header="Interaction Settings">
+                                    <StackPanel>
+                                        <CheckBox Content="Enable Hover Effects" 
+                                                  IsChecked="True" 
+                                                  Margin="5"/>
+                                        <CheckBox Content="Show Focus Indicators" 
+                                                  IsChecked="True" 
+                                                  Margin="5"/>
+                                        <CheckBox Content="Use Animations" 
+                                                  IsChecked="True" 
+                                                  Margin="5"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <!-- Action Buttons -->
+                                <StackPanel Orientation="Horizontal" 
+                                            HorizontalAlignment="Right" 
+                                            Margin="0,30,10,0">
+                                    <Button Content="Apply" 
+                                            Width="100" 
+                                            Height="30" 
+                                            Margin="5"
+                                            Background="Navy"
+                                            Foreground="White"/>
+                                    <Button Content="Reset"
+                                            Width="100" 
+                                            Height="30" 
+                                            Margin="5"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,167 @@
+﻿<Page x:Class="Family_Office.pages.FamilyOfficeMastersPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Family_Office.pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="650" d:DesignWidth="800"
+      Title="FamilyOfficeMastersPage">
+
+    <Page.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="Navy"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="Navy"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="Navy"/>
+        </Style>
+        <Style TargetType="DatePicker">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="Navy"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <!-- Background Image -->
+        <Image Source="/Images/Background image .jpg" 
+               Stretch="UniformToFill"
+               Opacity="0.8"/>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header with semi-transparent background -->
+            <Border Grid.Row="0" 
+                    Background="#F5F5F5" 
+                    BorderBrush="#E0E0E0" 
+                    BorderThickness="0,0,0,1" 
+                    Opacity="0.9"
+                    Padding="20,10">
+                <TextBlock Text="Family Office Masters" 
+                          FontSize="24" 
+                          FontWeight="Bold"
+                          Foreground="Navy"/>
+            </Border>
+
+            <!-- Main Content -->
+            <ScrollViewer Grid.Row="1" 
+                          Padding="20" 
+                          VerticalScrollBarVisibility="Auto">
+                <StackPanel MaxWidth="800">
+                    <!-- Content Panel with semi-transparent background -->
+                    <Border Background="#FFFFFF" 
+                            Opacity="0.85" 
+                            CornerRadius="5" 
+                            Padding="20">
+                        <!-- Two Column Content Grid -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Left Column -->
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <Label Content="Family Office Name"/>
+                                <TextBox x:Name="txtFamilyOfficeName" />
+
+                                <Label Content="Family Office Logo"/>
+                                <Grid Height="100">
+                                    <Border BorderBrush="Navy" 
+                                            BorderThickness="1" 
+                                            Width="100" 
+                                            Background="White"
+                                            HorizontalAlignment="Left">
+                                        <Image x:Name="imgLogo" 
+                                               Stretch="Uniform" 
+                                               Source="{Binding LogoSource}"/>
+                                    </Border>
+                                    <Button Content="Upload Logo" 
+                                            Width="100" 
+                                            Height="30" 
+                                            HorizontalAlignment="Left" 
+                                            Margin="120,35,0,0"
+                                            Background="Navy"
+                                            Foreground="White"
+                                            Click="BtnUploadLogo_Click"/>
+                                </Grid>
+
+                                <Label Content="Date of Establishment" />
+                                <DatePicker x:Name="dpEstablishmentDate"/>
+
+                                <Label Content="Vision"/>
+                                <TextBox x:Name="txtVision" 
+                                        Height="100" 
+                                        TextWrapping="Wrap" 
+                                        AcceptsReturn="True"/>
+                            </StackPanel>
+
+                            <!-- Right Column -->
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <Label Content="Head of Family"/>
+                                <ComboBox x:Name="cmbHeadOfFamily" 
+                                         DisplayMemberPath="FullLegalName"
+                                         SelectedValuePath="FamilyMemberID"/>
+
+                                <Label Content="Current Chief Investment Officer"/>
+                                <ComboBox x:Name="cmbChiefInvestmentOfficer"
+                                         DisplayMemberPath="FullLegalName"
+                                         SelectedValuePath="FamilyMemberID"/>
+
+                                <Label Content="Family Office Motto"/>
+                                <TextBox x:Name="txtMotto"/>
+
+                                <Label Content="Purpose"/>
+                                <TextBox x:Name="txtPurpose" 
+                                        Height="100" 
+                                        TextWrapping="Wrap" 
+                                        AcceptsReturn="True"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Action Buttons -->
+                    <Border Background="#F5F5F5" 
+                            Margin="0,20,0,0" 
+                            Padding="10"
+                            CornerRadius="5"
+                            Opacity="0.95">
+                        <StackPanel Orientation="Horizontal" 
+                                  HorizontalAlignment="Right">
+                            <Button Content="Save" 
+                                    Width="100" 
+                                    Height="30" 
+                                    Margin="5"
+                                    Background="Navy"
+                                    Foreground="White"
+                                    Click="BtnSave_Click"/>
+                            <Button Content="Cancel" 
+                                    Width="100" 
+                                    Height="30" 
+                                    Margin="5"
+                                    Background="#E0E0E0"
+                                    Click="BtnCancel_Click"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>

@@ -1,0 +1,104 @@
+﻿<Page x:Class="Family_Office.pages.AssetClassesManagement"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Family_Office.pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="800"
+      Title="AssetClassesManagement">
+
+    <Grid>
+        <Image Source="/Images/Background image .jpg" Stretch="Fill" Opacity="0.8"/>
+        <!-- Opacity is set for transparency, adjust as needed -->
+
+        <!-- Main Content -->
+        <DockPanel>
+            <!-- Docked Heading -->
+            <TextBlock Text="AssetClassesManagement" 
+                   FontSize="24" FontWeight="Bold" 
+                   Background="White"
+                   Padding="10"
+                   DockPanel.Dock="Top"/>
+
+            <!-- Main Stack Panel for Content Layout -->
+            <Border Margin="20,20,20,60" Background="White" CornerRadius="6" Opacity=".85">
+                <StackPanel>
+                    <!-- Goals Section -->
+                    <Border Padding="15">
+                        <GroupBox Header="Goals" Margin="0,0,0,10">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="5,5">
+                                    <TextBlock Text="Vision for Year:" VerticalAlignment="Center" Width="115"/>
+                                    <ComboBox Width="100">
+                                        <ComboBoxItem Content="2025"/>
+                                        <ComboBoxItem Content="2030"/>
+                                        <ComboBoxItem Content="2035"/>
+                                    </ComboBox>
+                                    <TextBlock Text="Amount:" VerticalAlignment="Center" Margin="20,0,0,0" Width="70"/>
+                                    <TextBox Width="100"/>
+                                    <TextBlock Text="Currency:" VerticalAlignment="Center" Margin="20,0,0,0" Width="70"/>
+                                    <ComboBox Width="60">
+                                        <ComboBoxItem Content="USD"/>
+                                        <ComboBoxItem Content="EUR"/>
+                                        <ComboBoxItem Content="INR"/>
+                                    </ComboBox>
+                                </StackPanel>
+                                <!-- Add more goals here as needed -->
+                            </StackPanel>
+                        </GroupBox>
+                    </Border>
+
+                    <Border Padding="10">
+                        <!-- Asset Classes Section -->
+                        <GroupBox Header="Asset Classes" Margin="0,0,0,10">
+                            <StackPanel>
+                                <!-- Row for each asset class -->
+                                <StackPanel Orientation="Horizontal" Margin="5,5">
+                                    <TextBlock Text="Asset Class:" VerticalAlignment="Center" Width="120"/>
+                                    <ComboBox Width="150">
+                                        <ComboBoxItem Content="Alternative Investment"/>
+                                        <ComboBoxItem Content="Stock Market"/>
+                                        <ComboBoxItem Content="Land"/>
+                                        <ComboBoxItem Content="Property"/>
+                                        <ComboBoxItem Content="Fixed Income"/>
+                                    </ComboBox>
+                                    <TextBlock Text="Code:" VerticalAlignment="Center" Margin="20,0,0,0" Width="70"/>
+                                    <TextBox Width="50"/>
+                                </StackPanel>
+                                <!-- Add more rows for additional asset classes -->
+                            </StackPanel>
+                        </GroupBox>
+                    </Border>
+
+                    <!-- Additional Sections -->
+                    <Border Padding="10">
+                        <GroupBox Header="Third Party Information" Margin="0,0,0,10" >
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="5,5">
+                                    <TextBlock Text="Party Type:" VerticalAlignment="Center" Width="150"/>
+                                    <ComboBox Width="200">
+                                        <ComboBoxItem Content="Buyer"/>
+                                        <ComboBoxItem Content="Seller"/>
+                                        <ComboBoxItem Content="Partner"/>
+                                        <!-- Add more options as needed -->
+                                    </ComboBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="5,5">
+                                    <TextBlock Text="Full Name:" VerticalAlignment="Center" Width="150"/>
+                                    <TextBox Width="200"/>
+                                </StackPanel>
+                                <!-- Additional fields for third-party info can go here -->
+                            </StackPanel>
+                        </GroupBox>
+                    </Border>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,10,0">
+                        <Button Content="Save" Width="120" Margin="10" Height="30" Background="Navy" Foreground="White"/>
+                        <Button Content="Cancel" Width="120" Margin="10" Height="30"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DockPanel>
+    </Grid>
+</Page>
