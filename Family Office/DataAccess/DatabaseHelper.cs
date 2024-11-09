@@ -109,7 +109,9 @@ namespace Family_Office.DataAccess
                     Role TEXT,
                     Status TEXT,
                     JoiningFamilyDate TEXT,
+                    CountryCode1 Text,
                     Telephone1 TEXT,
+                    CountryCode2 TEXT,
                     Telephone2 TEXT,
                     PersonalEmail TEXT,
                     FamilyEmail TEXT,
@@ -147,7 +149,7 @@ namespace Family_Office.DataAccess
             string query = @"
                 CREATE TABLE IF NOT EXISTS Goals (
                     GoalID INTEGER PRIMARY KEY AUTOINCREMENT,
-                    VisionYear TEXT,
+                    VisionYear INTEGER,
                     TargetAmount REAL,
                     RateOFCompounding REAL
                 );";
@@ -260,7 +262,9 @@ namespace Family_Office.DataAccess
                     FullName TEXT,
                     FirstAssociationDate TEXT,
                     Photo BLOB,
+                    MainNumberCode TEXT,
                     MainMobileNumber TEXT,
+                    AltNumberCode TEXT,
                     AltMobileNumber TEXT,
                     EmailAddress TEXT,
                     HomeAddress TEXT,
