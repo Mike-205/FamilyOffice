@@ -4,45 +4,64 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Family_Office.pages"
+      xmlns:viewmodels="clr-namespace:Family_Office.ViewModel"
       mc:Ignorable="d" 
-      d:DesignHeight="650" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="900"
       Title="FamilyOfficeMastersPage">
 
     <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+
         <Style TargetType="Label">
-            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Margin" Value="5,5,5,0"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Foreground" Value="#000080"/>
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="5"/>
             <Setter Property="Height" Value="30"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="Navy"/>
+            <Setter Property="Padding" Value="5"/>
         </Style>
         <Style TargetType="ComboBox">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Height" Value="30"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="Navy"/>
         </Style>
         <Style TargetType="DatePicker">
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Height" Value="30"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="BorderBrush" Value="Navy"/>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#000080"/>
+        </Style>
+        <!-- Status Message Style -->
+        <Style x:Key="StatusMessageStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="#F0F0F0"/>
         </Style>
     </Page.Resources>
 
     <Grid>
         <!-- Background Image -->
-        <Image Source="/Images/Background image .jpg" 
+        <Image Source="/Images/backgroundImage1.jpg" 
                Stretch="UniformToFill"
                Opacity="0.8"/>
 
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -60,15 +79,21 @@
                           Foreground="Navy"/>
             </Border>
 
+            <!-- Status Message -->
+            <TextBlock Grid.Row="1"
+                      Text="{Binding StatusMessage}"
+                      Style="{StaticResource StatusMessageStyle}"
+                      Margin="20,5"/>
+
             <!-- Main Content -->
-            <ScrollViewer Grid.Row="1" 
-                          Padding="20" 
-                          VerticalScrollBarVisibility="Auto">
-                <StackPanel MaxWidth="800">
+            <ScrollViewer Grid.Row="2" 
+                          Padding="10" 
+                          VerticalScrollBarVisibility="Auto" Margin="20,0, 20,0">
+                <StackPanel>
                     <!-- Content Panel with semi-transparent background -->
                     <Border Background="#FFFFFF" 
                             Opacity="0.85" 
-                            CornerRadius="5" 
+                            CornerRadius="6" 
                             Padding="20">
                         <!-- Two Column Content Grid -->
                         <Grid>
@@ -79,60 +104,80 @@
 
                             <!-- Left Column -->
                             <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                                <Label Content="Family Office Name"/>
-                                <TextBox x:Name="txtFamilyOfficeName" />
+                                <!-- Basic Information GroupBox -->
+                                <GroupBox Header="Basic Information">
+                                    <StackPanel>
+                                        <Label Content="Family Office Name"/>
+                                        <TextBox Text="{Binding FamilyOfficeName, UpdateSourceTrigger=PropertyChanged}" />
 
-                                <Label Content="Family Office Logo"/>
-                                <Grid Height="100">
-                                    <Border BorderBrush="Navy" 
-                                            BorderThickness="1" 
-                                            Width="100" 
-                                            Background="White"
-                                            HorizontalAlignment="Left">
-                                        <Image x:Name="imgLogo" 
-                                               Stretch="Uniform" 
-                                               Source="{Binding LogoSource}"/>
-                                    </Border>
-                                    <Button Content="Upload Logo" 
-                                            Width="100" 
-                                            Height="30" 
-                                            HorizontalAlignment="Left" 
-                                            Margin="120,35,0,0"
-                                            Background="Navy"
-                                            Foreground="White"
-                                            Click="BtnUploadLogo_Click"/>
-                                </Grid>
+                                        <Label Content="Date of Establishment" />
+                                        <DatePicker SelectedDate="{Binding EstablishmentDate, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                </GroupBox>
 
-                                <Label Content="Date of Establishment" />
-                                <DatePicker x:Name="dpEstablishmentDate"/>
+                                <!-- Branding GroupBox -->
+                                <GroupBox Header="Branding" Margin="0,10,0,0">
+                                    <StackPanel>
+                                        <Label Content="Family Office Logo"/>
+                                        <Grid Height="100">
+                                            <Border BorderBrush="Navy" 
+                                                    BorderThickness="1" 
+                                                    Width="100" 
+                                                    Background="White"
+                                                    HorizontalAlignment="Left">
+                                                <Image Stretch="Uniform" 
+                                                       Source="{Binding LogoImage}"/>
+                                            </Border>
+                                            <Button Content="Upload Logo" 
+                                                    Width="100" 
+                                                    Height="30" 
+                                                    HorizontalAlignment="Left" 
+                                                    Margin="120,35,0,0"
+                                                    Background="Navy"
+                                                    Foreground="White"
+                                                    Click="BtnUploadLogo_Click"/>
+                                        </Grid>
 
-                                <Label Content="Vision"/>
-                                <TextBox x:Name="txtVision" 
-                                        Height="100" 
-                                        TextWrapping="Wrap" 
-                                        AcceptsReturn="True"/>
+                                        <Label Content="Family Office Motto"/>
+                                        <TextBox Text="{Binding Motto, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <!-- Vision GroupBox -->
+                                <GroupBox Header="Vision and Purpose" Margin="0,10,0,0">
+                                    <StackPanel>
+                                        <Label Content="Vision"/>
+                                        <TextBox Text="{Binding Vision, UpdateSourceTrigger=PropertyChanged}" 
+                                                Height="100" 
+                                                TextWrapping="Wrap" 
+                                                AcceptsReturn="True"/>
+                                    </StackPanel>
+                                </GroupBox>
                             </StackPanel>
 
                             <!-- Right Column -->
                             <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                                <Label Content="Head of Family"/>
-                                <ComboBox x:Name="cmbHeadOfFamily" 
-                                         DisplayMemberPath="FullLegalName"
-                                         SelectedValuePath="FamilyMemberID"/>
+                                <!-- Leadership GroupBox -->
+                                <GroupBox Header="Leadership">
+                                    <StackPanel>
+                                        <Label Content="Head of Family"/>
+                                        <TextBox Text="{Binding HeadOfFamily, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <Label Content="Current Chief Investment Officer"/>
-                                <ComboBox x:Name="cmbChiefInvestmentOfficer"
-                                         DisplayMemberPath="FullLegalName"
-                                         SelectedValuePath="FamilyMemberID"/>
+                                        <Label Content="Current Chief Investment Officer"/>
+                                        <TextBox Text="{Binding ChiefInvestOfficer, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </StackPanel>
+                                </GroupBox>
 
-                                <Label Content="Family Office Motto"/>
-                                <TextBox x:Name="txtMotto"/>
-
-                                <Label Content="Purpose"/>
-                                <TextBox x:Name="txtPurpose" 
-                                        Height="100" 
-                                        TextWrapping="Wrap" 
-                                        AcceptsReturn="True"/>
+                                <!-- Purpose GroupBox -->
+                                <GroupBox Header="Purpose Statement" Margin="0,10,0,0">
+                                    <StackPanel>
+                                        <Label Content="Purpose"/>
+                                        <TextBox Text="{Binding Purpose, UpdateSourceTrigger=PropertyChanged}" 
+                                                Height="100" 
+                                                TextWrapping="Wrap" 
+                                                AcceptsReturn="True"/>
+                                    </StackPanel>
+                                </GroupBox>
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -151,13 +196,13 @@
                                     Margin="5"
                                     Background="Navy"
                                     Foreground="White"
-                                    Click="BtnSave_Click"/>
+                                    Command="{Binding SaveCommand}"/>
                             <Button Content="Cancel" 
                                     Width="100" 
                                     Height="30" 
                                     Margin="5"
                                     Background="#E0E0E0"
-                                    Click="BtnCancel_Click"/>
+                                    Command="{Binding CancelCommand}"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>

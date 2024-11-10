@@ -10,10 +10,19 @@
       Title="GoalSettingsPage">
 
     <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <!--000000-->
+            <Setter Property="Background" Value="#000080"/>
+            <!--e2e2e2-->
+        </Style>
         <Style TargetType="Label">
             <Setter Property="Margin" Value="5,5,5,0"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Foreground" Value="#000080"/>
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="Margin" Value="5"/>
@@ -37,13 +46,15 @@
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Foreground" Value="#000080"/>
         </Style>
     </Page.Resources>
 
     <Grid>
-        <Image Source="/Images/Background image .jpg" 
+        <Image Source="/Images/backgroundImage1.jpg" 
            Stretch="UniformToFill"
            Opacity="0.8"/>
 
@@ -129,26 +140,21 @@
 
                                         <!-- Remove Button -->
                                         <Button Grid.Column="3" 
-                                                Content="x"
+                                                Content="🗑️"
                                                 VerticalContentAlignment="Top"
                                                 FontSize="20"
                                                 Width="36"
                                                 Height="36"
                                                 Margin="0,24,0,0"
-                                                Background="Transparent"
+                                                Background="#e2e2e2"
+                                                Foreground="IndianRed"
                                                 BorderBrush="#dee2e6"/>
                                     </Grid>
                                 </Border>
 
                                 <!-- Add New Vision Button -->
                                 <Button Content="+ Add New Vision" 
-                                        Height="36"
-                                        Padding="20,0"
-                                        Margin="20,0,0,10"
-                                        HorizontalAlignment="Left"
-                                        Background="Transparent"
-                                        BorderBrush="#0066cc"
-                                        Foreground="#0066cc"/>
+                                        HorizontalAlignment="Left"/>
                             </StackPanel>
                         </GroupBox>
 
@@ -181,16 +187,12 @@
                         <!-- Action Buttons -->
                         <StackPanel Orientation="Horizontal" 
                                     HorizontalAlignment="Right">
-                            <Button Content="Save Changes" 
-                                    Width="100"
-                                    Height="30"
-                                    Background="Navy"
-                                    Foreground="White"
+                            <Button Content="Save Changes"
                                     Margin="0,0,10,0"/>
                             <Button Content="Cancel"
                                     Margin="0,0,10,0"
-                                    Width="100"
-                                    Height="30"/>
+                                    Background="#e2e2e2"
+                                    Foreground="#000000"/>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>

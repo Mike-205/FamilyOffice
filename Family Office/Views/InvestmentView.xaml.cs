@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Family_Office.pages
+namespace Family_Office.Views
 {
     /// <summary>
-    /// Interaction logic for UserAccessPage.xaml
+    /// Interaction logic for InvestmentView.xaml
     /// </summary>
-    public partial class UserAccessPage : Page
+    public partial class InvestmentView : Page
     {
-        public UserAccessPage()
+        public InvestmentView()
         {
             InitializeComponent();
         }

@@ -6,7 +6,7 @@ namespace Family_Office.DataAccess
 {
     public static class DatabaseHelper
     {
-        private static readonly string DbFilePath = "family_office.db"; // Path to SQLite DB file
+        private static readonly string DbFilePath = "example.db"; // Path to SQLite DB file
 
         public static SQLiteConnection GetConnection()
         {
@@ -227,8 +227,8 @@ namespace Family_Office.DataAccess
             string query = @"
                 CREATE TABLE IF NOT EXISTS Settings (
                     SettingID INTEGER PRIMARY KEY AUTOINCREMENT,
-                    DateFormat TEXT DEFAULT 'dd/MM/yyyy',
-                    BaseCurrency TEXT DEFAULT 'USD',
+                    DateFormat TEXT DEFAULT 'DD/MM/YYYY',
+                    BaseCurrency TEXT DEFAULT 'USD - US Dollar',
                     ShowExchangeRatesInList INTEGER DEFAULT 0,  -- 0 for false
                     ShowBaseCurrencyEquivalent INTEGER DEFAULT 0,  -- 0 for false
                     UseThousandsSeparator INTEGER DEFAULT 1,  -- 1 for true
@@ -244,7 +244,7 @@ namespace Family_Office.DataAccess
                     Scale INTEGER DEFAULT 100,
                     MarginSize INTEGER DEFAULT 5,
                     BorderWidth REAL DEFAULT 0.5,
-                    BackgroundImage TEXT DEFAULT '/Images/Background image .jpg',
+                    BackgroundImage TEXT DEFAULT '/Images/backgroundImage1.jpg',
                     EnableHoverEffects INTEGER DEFAULT 0,  -- 0 for false
                     ShowFocusIndication INTEGER DEFAULT 0,  -- 0 for false
                     UseAnimation INTEGER DEFAULT 0  -- 0 for false

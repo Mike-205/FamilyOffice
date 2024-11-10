@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Family_Office.pages
+namespace Family_Office.PopUpWindow
 {
     /// <summary>
-    /// Interaction logic for AssetClassesManagement.xaml
+    /// Interaction logic for PropertyInvestment.xaml
     /// </summary>
-    public partial class AssetClassesManagement : Page
+    public partial class PropertyInvestment : Window
     {
-        public AssetClassesManagement()
+        public PropertyInvestment()
         {
             InitializeComponent();
         }

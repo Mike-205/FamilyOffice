@@ -11,12 +11,48 @@ namespace Family_Office.pages
 {
     public partial class LoginPage : Page
     {
-        private readonly string connectionString = "Data Source=Family Office.db;Version=3;";
+        private readonly string connectionString = "Data Source=example.db;Version=3;";
         private byte[]? profileImageData;
 
         public LoginPage()
         {
             InitializeComponent();
+            EnsureDefaultUserExists();
+        }
+
+        private void EnsureDefaultUserExists()
+        {
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // First check if user exists
+                    string checkQuery = "SELECT COUNT(*) FROM User WHERE Username = 'admin'";
+                    using (SQLiteCommand checkCommand = new SQLiteCommand(checkQuery, connection))
+                    {
+                        int userCount = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                        if (userCount == 0)
+                        {
+                            // Insert default user if none exists
+                            string insertQuery = @"
+                                INSERT INTO User (Username, Password) 
+                                VALUES ('admin', '12345')";
+                            using (SQLiteCommand insertCommand = new SQLiteCommand(insertQuery, connection))
+                            {
+                                insertCommand.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Database initialization error: {ex.Message}",
+                              "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ProfilePicture_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -28,9 +64,37 @@ namespace Family_Office.pages
         {
             string username = txtUsername.Text;
             string password = txtPassword.Password;
-            string hashedPassword = HashPassword(password);
 
-            if (AuthenticateUser(username, hashedPassword))
+            // Add debug message
+            try
+            {
+                using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+                {
+                    connection.Open();
+                    string debugQuery = "SELECT * FROM User WHERE Username = @Username";
+                    using (SQLiteCommand command = new SQLiteCommand(debugQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@Username", username);
+                        using (SQLiteDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                string storedPassword = reader["Password"].ToString();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Debug: User not found in database");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Debug error: {ex.Message}");
+            }
+
+            if (AuthenticateUser(username, password))
             {
                 LoadUserProfilePicture();
                 MessageBox.Show("Login successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -39,14 +103,13 @@ namespace Family_Office.pages
             else
             {
                 MessageBox.Show("Invalid username or password. Please try again.",
-                                "Login Failed", MessageBoxButton.OK, MessageBoxImage.Warning);
+                              "Login Failed", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
-
         private void LoadUserProfilePicture()
         {
-            string username = txtUsername.Text; // Assuming username is set or input is handled before this
+            string username = txtUsername.Text;
 
             try
             {
@@ -54,18 +117,17 @@ namespace Family_Office.pages
                 {
                     connection.Open();
 
-                    string query = "SELECT ProfilePicture FROM Users WHERE Username = @Username";
+                    string query = "SELECT Profile FROM User WHERE Username = @Username";
                     using (SQLiteCommand command = new SQLiteCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Username", username);
 
                         using (SQLiteDataReader reader = command.ExecuteReader())
                         {
-                            if (reader.Read() && !reader.IsDBNull(0))
+                            if (reader.Read() && !reader.IsDBNull(reader.GetOrdinal("Profile")))
                             {
-                                byte[] profileImageBytes = (byte[])reader["ProfilePicture"];
+                                byte[] profileImageBytes = (byte[])reader["Profile"];
 
-                                // Load image from byte array and set it as the source for imgProfilePicture
                                 BitmapImage bitmap = new BitmapImage();
                                 using (MemoryStream ms = new MemoryStream(profileImageBytes))
                                 {
@@ -80,7 +142,6 @@ namespace Family_Office.pages
                             }
                             else
                             {
-                                // No profile picture found, display "Click to add profile" hint
                                 imgProfilePicture.Source = null;
                                 txtProfileHint.Visibility = Visibility.Visible;
                                 txtProfileHint.Text = "Click to add profile";
@@ -91,8 +152,8 @@ namespace Family_Office.pages
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while loading the profile picture: {ex.Message}", "Error",
-                                MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An error occurred while loading the profile picture: {ex.Message}",
+                              "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -126,13 +187,13 @@ namespace Family_Office.pages
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error loading image: {ex.Message}", "Error",
-                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show($"Error loading image: {ex.Message}",
+                                  "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
 
-        private bool AuthenticateUser(string username, string hashedPassword)
+        private bool AuthenticateUser(string username, string password)
         {
             try
             {
@@ -140,11 +201,11 @@ namespace Family_Office.pages
                 {
                     connection.Open();
 
-                    string query = "SELECT Id FROM Users WHERE Username = @Username AND Password = @Password";
+                    string query = "SELECT UserID FROM User WHERE Username = @Username AND Password = @Password";
                     using (SQLiteCommand command = new SQLiteCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Username", username);
-                        command.Parameters.AddWithValue("@Password", hashedPassword);
+                        command.Parameters.AddWithValue("@Password", password);
 
                         using (SQLiteDataReader reader = command.ExecuteReader())
                         {
@@ -160,8 +221,8 @@ namespace Family_Office.pages
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred: {ex.Message}", "Error",
-                                MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"An error occurred: {ex.Message}",
+                              "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             return false;
         }
@@ -170,11 +231,11 @@ namespace Family_Office.pages
         {
             if (profileImageData != null)
             {
-                string updateQuery = "UPDATE Users SET ProfilePicture = @ProfilePicture WHERE Id = @Id";
+                string updateQuery = "UPDATE User SET Profile = @Profile WHERE UserID = @UserID";
                 using (SQLiteCommand updateCommand = new SQLiteCommand(updateQuery, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@ProfilePicture", profileImageData);
-                    updateCommand.Parameters.AddWithValue("@Id", userId);
+                    updateCommand.Parameters.AddWithValue("@Profile", profileImageData);
+                    updateCommand.Parameters.AddWithValue("@UserID", userId);
                     updateCommand.ExecuteNonQuery();
                 }
             }
@@ -184,20 +245,6 @@ namespace Family_Office.pages
         {
             Homepage homePage = new Homepage();
             NavigationService?.Navigate(homePage);
-        }
-
-        private string HashPassword(string password)
-        {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new StringBuilder();
-                foreach (byte b in bytes)
-                {
-                    builder.Append(b.ToString("x2"));
-                }
-                return builder.ToString();
-            }
         }
     }
 }

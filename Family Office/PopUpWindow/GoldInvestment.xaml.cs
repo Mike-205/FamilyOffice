@@ -10,29 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Family_Office.pages
+namespace Family_Office.Views
 {
     /// <summary>
-    /// Interaction logic for FamilyMembersMastersPage.xaml
+    /// Interaction logic for GoldInvestment.xaml
     /// </summary>
-    public partial class FamilyMembersMastersPage : Page
+    public partial class GoldInvestment : Window
     {
-        public FamilyMembersMastersPage()
+        public GoldInvestment()
         {
             InitializeComponent();
-        }
-
-        private void BtnCancel_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void cmbStatus_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }

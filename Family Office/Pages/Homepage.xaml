@@ -79,14 +79,14 @@
                     <Button Style="{StaticResource SidebarButtonStyle}" Click="NavigateToSection">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="🔑" FontSize="20" Margin="0,0,10,0"/>
-                            <TextBlock Text="Passwords Master" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text="Third Party" Foreground="White"/>
                         </StackPanel>
                     </Button>
 
                     <Button Style="{StaticResource SidebarButtonStyle}" Click="NavigateToSection">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="👤" FontSize="20" Margin="0,0,10,0"/>
-                            <TextBlock Text="User Access Management" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text="Bank Management" Foreground="White" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
@@ -115,10 +115,11 @@
         </Border>
 
         <!-- Main Content Area -->
-        <Grid Grid.Column="1" 
-              Background="#f5f5f5"
+        <Grid Grid.Column="1"
               HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch">
+              VerticalAlignment="Stretch"
+              Background="Transparent">
+              
             <Frame x:Name="MainContentFrame" 
                    NavigationUIVisibility="Hidden"
                    HorizontalAlignment="Stretch"

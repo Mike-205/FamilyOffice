@@ -4,46 +4,51 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Family_Office.pages"
+      xmlns:converters="clr-namespace:Family_Office.Converters"
+      xmlns:viewModel="clr-namespace:Family_Office.ViewModel"
       mc:Ignorable="d" 
-      Background="White"
-      d:DesignHeight="700" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="900"
       Title="GeneralSettingsPage">
 
     <Page.Resources>
+        <converters:KeyValueItemToBrushConverter x:Key="KeyValueItemToBrushConverter"/>
+        
         <Style TargetType="Label">
             <Setter Property="Margin" Value="5,5,5,0"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Foreground" Value="{Binding selectedPrimaryColor, Converter={StaticResource KeyValueItemToBrushConverter}}"/>
         </Style>
         <Style TargetType="TextBox">
-            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Margin" Value="{Binding MarginSize}"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Padding" Value="5"/>
         </Style>
         <Style TargetType="ComboBox">
-            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Margin" Value="{Binding MarginSize}"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
         <Style TargetType="DatePicker">
-            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Margin" Value="{Binding MarginSize}"/>
             <Setter Property="Height" Value="30"/>
         </Style>
         <Style TargetType="GroupBox">
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Padding" Value="10"/>
-            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="BorderThickness" Value="{Binding BorderWidth}"/>
             <Setter Property="BorderBrush" Value="#CCCCCC"/>
         </Style>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="FontSize" Value="{Binding BodyFontSize}"/>
+            <Setter Property="FontFamily" Value="{Binding SelectedFontFamily}"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Foreground" Value="{Binding SelectedPrimaryColor, Converter={StaticResource KeyValueItemToBrushConverter}}"/>
         </Style>
     </Page.Resources>
 
     <Grid>
-        <Image Source="/Images/Background image .jpg"
+        <Image Source="{Binding SelectedBackgroundImage}"
                Stretch="UniformToFill"
                Opacity="0.8"/>
 
@@ -55,20 +60,19 @@
 
             <!-- Header -->
             <Border Grid.Row="0" 
-                    Background="#F5F5F5" 
-                    BorderBrush="#E0E0E0" 
+                    Background="{Binding SelectedBackgroundColor}" 
                     BorderThickness="0,0,0,1" 
                     Opacity="0.9"
                     Padding="20,10">
                 <DockPanel>
                     <TextBlock Text="General Settings" 
-                             FontSize="24" 
+                             FontSize="{Binding HeaderFontSize}" 
                              FontWeight="Bold"/>
                 </DockPanel>
             </Border>
 
             <!-- Main Content -->
-            <TabControl Margin="10" Grid.Row="1">
+            <TabControl Margin="10" Grid.Row="1" Background="#FFFFFF" Opacity="0.83">
                 <TabItem Header="General Settings">
                     <ScrollViewer Padding="20" 
                                   VerticalScrollBarVisibility="Auto">
@@ -79,14 +83,12 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Left Column - Date Settings -->
-                            <StackPanel Grid.Column="0" Background="White" Opacity=".85">
+                            <StackPanel Grid.Column="0">
                                 <GroupBox Header="Date Format Settings">
                                     <StackPanel>
                                         <DockPanel>
                                             <TextBlock Text="Date Format:" Width="100"/>
-                                            <ComboBox IsEnabled="False">
-                                                <ComboBoxItem Content="DD/MM/YYYY" IsSelected="True"/>
-                                            </ComboBox>
+                                            <ComboBox ItemsSource="{Binding DateFormats}" SelectedItem="{Binding SelectedDateFormat}"></ComboBox>
                                         </DockPanel>
 
                                         <TextBlock Text="Preview:" Margin="5,10,5,0"/>
@@ -101,42 +103,40 @@
                                     </StackPanel>
                                 </GroupBox>
 
-                                <GroupBox Header="Default Currency" Margin="5,15,5,15">
+                                <GroupBox Header="Default Currency" Margin="5,25,5,15">
                                     <StackPanel>
                                         <DockPanel>
                                             <TextBlock Text="Base Currency:" VerticalAlignment="Center" Width="100"/>
-                                            <ComboBox>
-                                                <ComboBoxItem Content="USD - US Dollar"/>
-                                                <ComboBoxItem Content="EUR - Euro"/>
-                                                <ComboBoxItem Content="GBP - British Pound"/>
-                                                <ComboBoxItem Content="JPY - Japanese Yen"/>
-                                            </ComboBox>
+                                            <ComboBox ItemsSource="{Binding Currencies}"
+                                                      SelectedItem="{Binding SelectedBaseCurrency}"></ComboBox>
                                         </DockPanel>
 
-                                        <DockPanel>
+                                        <!--<DockPanel>
                                             <TextBlock Text="Display Format:" VerticalAlignment="Center" Width="100"/>
                                             <ComboBox>
                                                 <ComboBoxItem Content="Symbol (£)" IsSelected="True"/>
                                                 <ComboBoxItem Content="Code (GBP)"/>
                                                 <ComboBoxItem Content="Both (GBP £)"/>
                                             </ComboBox>
-                                        </DockPanel>
+                                        </DockPanel>-->
                                     </StackPanel>
                                 </GroupBox>
 
-                                <GroupBox Header="Display Options">
+                                <GroupBox Header="Display Options" Margin="5,25,5,15">
                                     <StackPanel>
-                                        <CheckBox Content="Show exchange rates in lists" 
+                                        <CheckBox Content="Show exchange rates in lists"
+                                                  IsChecked="{Binding ShowExchangeRatesInList}"
                                                   Margin="5"/>
                                         <CheckBox Content="Always show base currency equivalent" 
+                                                  IsChecked="{Binding ShowBaseCurrencyEquivalent}"
                                                   Margin="5"/>
                                         <CheckBox Content="Use thousands separator" 
-                                                  IsChecked="True" 
+                                                  IsChecked="{Binding UseThousandsSeparator}" 
                                                   Margin="5"/>
                                         <DockPanel>
                                             <TextBlock Text="Decimal Places:" Width="100"/>
-                                            <ComboBox>
-                                                <ComboBoxItem Content="2" IsSelected="True"/>
+                                            <ComboBox SelectedValue="{Binding DecimalPlaces}">
+                                                <ComboBoxItem Content="2"/>
                                                 <ComboBoxItem Content="3"/>
                                                 <ComboBoxItem Content="4"/>
                                             </ComboBox>
@@ -146,7 +146,7 @@
                             </StackPanel>
 
                             <!-- Right Column - Currency Management -->
-                            <StackPanel Grid.Column="1" Background="White" Opacity=".85">
+                            <StackPanel Grid.Column="1">
                                 <GroupBox Header="Exchange Rate Management">
                                     <StackPanel>
                                         <TextBlock Text="Active Currencies and Exchange Rates" 
@@ -155,17 +155,13 @@
                                         <DataGrid Height="200">
                                             <DataGrid.Columns>
                                                 <DataGridCheckBoxColumn Header="Active" 
-                                                  Width="60"
-                                                  Binding="{Binding IsActive}"/>
+                                                  Width="60"/>
                                                 <DataGridTextColumn Header="Currency" 
-                                              Width="100"
-                                              Binding="{Binding CurrencyName}"/>
+                                              Width="100"/>
                                                 <DataGridTextColumn Header="Code" 
-                                              Width="60"
-                                              Binding="{Binding CurrencyCode}"/>
+                                              Width="60"/>
                                                 <DataGridTextColumn Header="Exchange Rate" 
-                                              Width="*"
-                                              Binding="{Binding ExchangeRate}"/>
+                                              Width="*"/>
                                             </DataGrid.Columns>
                                         </DataGrid>
 
@@ -196,11 +192,11 @@
                                                 <TextBlock Text="Rate:" Grid.Row="1"/>
                                                 <TextBox Grid.Row="1" Grid.Column="1"/>
                                                 <Button Content="Update"
-                                    Padding="10,5,10,5"
-                                    HorizontalAlignment="Right"
-                                    Margin="0,0,0,0"
-                                    Grid.Row="2" 
-                                    Grid.Column="3"/>
+                                                    Padding="10,5,10,5"
+                                                    HorizontalAlignment="Right"
+                                                    Margin="0,0,0,0"
+                                                    Grid.Row="2" 
+                                                    Grid.Column="3"/>   
                                             </Grid>
                                         </GroupBox>
                                     </StackPanel>
@@ -215,14 +211,14 @@
                                                 Width="100" 
                                                 Height="30" 
                                                 Margin="5"
-                                                Background="Navy"
+                                                Background="{Binding selectedPrimaryColor, UpdateSourceTrigger=PropertyChanged}"
                                                 Foreground="White"
-                                                Click="BtnSave_Click"/>
-                                        <Button Content="Cancel" 
+                                                Command="{Binding SaveCommand}"/>
+                                        <Button Content="Reset" 
                                                 Width="100" 
                                                 Height="30" 
                                                 Margin="5"
-                                                Click="BtnCancel_Click"/>
+                                                Command="{Binding ResetCommand}"/>
                                     </StackPanel>
                                 </Border>
                             </StackPanel>
@@ -231,7 +227,7 @@
                     
                 </TabItem>
                 <TabItem Header="User Inteface">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" >
                         <Grid Margin="10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -239,33 +235,27 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Left Column - Typography and Colors -->
-                            <StackPanel Grid.Column="0" Background="White" Opacity=".85">
+                            <StackPanel Grid.Column="0">
                                 <GroupBox Header="Typography">
                                     <StackPanel>
                                         <DockPanel>
                                             <TextBlock Text="Font Family:" Width="100" VerticalAlignment="Center"/>
-                                            <ComboBox>
-                                                <ComboBoxItem Content="Arial" IsSelected="True"/>
-                                                <ComboBoxItem Content="Helvetica"/>
-                                                <ComboBoxItem Content="Segoe UI"/>
+                                            <ComboBox ItemsSource="{Binding FontFamilies}"
+                                                      SelectedItem="{Binding SelectedFontFamily}">
                                             </ComboBox>
                                         </DockPanel>
 
                                         <DockPanel>
                                             <TextBlock Text="Body Text Size:" Width="100"  VerticalAlignment="Center"/>
-                                            <ComboBox>
-                                                <ComboBoxItem Content="10pt" IsSelected="True"/>
-                                                <ComboBoxItem Content="11pt"/>
-                                                <ComboBoxItem Content="12pt"/>
+                                            <ComboBox ItemsSource="{Binding BodyFontSizes}"
+                                                      SelectedItem="{Binding BodyFontSize}">
                                             </ComboBox>
                                         </DockPanel>
 
                                         <DockPanel>
                                             <TextBlock Text="Header Size:" Width="100"  VerticalAlignment="Center"/>
-                                            <ComboBox>
-                                                <ComboBoxItem Content="12pt" IsSelected="True"/>
-                                                <ComboBoxItem Content="14pt"/>
-                                                <ComboBoxItem Content="16pt"/>
+                                            <ComboBox ItemsSource="{Binding HeaderFontSizes}"
+                                                      SelectedItem="{Binding HeaderFontSize}">
                                             </ComboBox>
                                         </DockPanel>
                                     </StackPanel>
@@ -275,19 +265,18 @@
                                     <StackPanel>
                                         <DockPanel>
                                             <TextBlock Text="Primary Color:" Width="100"  VerticalAlignment="Center"/>
-                                            <ComboBox>
-                                                <ComboBoxItem Content="Navy Blue (#000080)" IsSelected="True"/>
-                                                <ComboBoxItem Content="Dark Blue (#00008B)"/>
-                                                <ComboBoxItem Content="Royal Blue (#4169E1)"/>
+                                            <ComboBox ItemsSource="{Binding PrimaryColors}"
+                                                      SelectedItem="{Binding SelectedPrimaryColor}"
+                                                      DisplayMemberPath="DisplayName">
+                                                
                                             </ComboBox>
                                         </DockPanel>
 
                                         <DockPanel>
                                             <TextBlock Text="Background:" Width="100"  VerticalAlignment="Center"/>
-                                            <ComboBox>
-                                                <ComboBoxItem Content="Light Gray (#D3D3D3)" IsSelected="True"/>
-                                                <ComboBoxItem Content="White (#FFFFFF)"/>
-                                                <ComboBoxItem Content="Silver (#C0C0C0)"/>
+                                            <ComboBox ItemsSource="{Binding BackgroundColors}"
+                                                      SelectedItem="{Binding SelectedBackgroundColor}">
+                                                
                                             </ComboBox>
                                         </DockPanel>
                                     </StackPanel>
@@ -310,7 +299,7 @@
                             </StackPanel>
 
                             <!-- Right Column - Layout and Interaction -->
-                            <StackPanel Grid.Column="1" Background="white" Opacity=".85">
+                            <StackPanel Grid.Column="1">
                                 <!-- Rest of your existing right column content -->
                                 <GroupBox Header="Layout and Spacing">
                                     <!-- Existing content -->
@@ -326,19 +315,17 @@
 
                                         <DockPanel>
                                             <TextBlock Text="Border Width:" Width="100"  VerticalAlignment="Center"/>
-                                            <ComboBox SelectionChanged="ComboBox_SelectionChanged">
-                                                <ComboBoxItem Content="0.5px" IsSelected="True"/>
-                                                <ComboBoxItem Content="0.8px"/>
-                                                <ComboBoxItem Content="1.0px"/>
+                                            <ComboBox ItemsSource="{Binding BorderThickness}"
+                                                      SelectedItem="{Binding BorderWidth}">
                                             </ComboBox>
                                         </DockPanel>
 
                                         <DockPanel>
                                             <TextBlock Text="Bacground image:" Width="100"  VerticalAlignment="Center"/>
-                                            <ComboBox>
-                                                <ComboBoxItem Content="image 1" IsSelected="True"/>
-                                                <ComboBoxItem Content="image 2"/>
-                                                <ComboBoxItem Content="image 3"/>
+                                            <ComboBox ItemsSource="{Binding BackgroundImages}"
+                                                      SelectedItem="{Binding SelectedBackgroundImage}"
+                                                      DisplayMemberPath="DisplayName">
+                                               
                                             </ComboBox>
                                         </DockPanel>
                                     </StackPanel>
@@ -366,12 +353,14 @@
                                             Width="100" 
                                             Height="30" 
                                             Margin="5"
-                                            Background="Navy"
-                                            Foreground="White"/>
+                                            Background="{Binding selectedPrimaryColor}"
+                                            Foreground="White"
+                                            Command="{Binding SaveCommand}"/>
                                     <Button Content="Reset"
                                             Width="100" 
                                             Height="30" 
-                                            Margin="5"/>
+                                            Margin="5"
+                                            Command="{Binding ResetCommand}"/>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>

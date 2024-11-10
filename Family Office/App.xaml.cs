@@ -9,6 +9,6 @@ namespace Family_Office
     /// </summary>
     public partial class App : Application
     {
+       
     }
-
 }

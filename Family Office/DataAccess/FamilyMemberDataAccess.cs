@@ -5,7 +5,7 @@ namespace Family_Office.DataAccess
 {
     public class FamilyMemberDataAccess
     {
-        private static string ConnectionString = "Data Source=family_office.db;Version=3;";
+        private static string ConnectionString = "Data Source=example.db;Version=3;";
 
         public static List<FamilyMember> GetFamilyMembers()
         {
@@ -184,6 +184,21 @@ namespace Family_Office.DataAccess
                 command.Parameters.AddWithValue("@EducatedFrom", member.EducatedFrom);
                 command.Parameters.AddWithValue("@Document", member.Document);
 
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public static void DeleteFamilyMember(int familyMemberID)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                connection.Open();
+                var command = new SQLiteCommand(connection)
+                {
+                    CommandText = "DELETE FROM FamilyMember WHERE FamilyMemberID = @FamilyMemberID"
+                };
+
+                command.Parameters.AddWithValue("@FamilyMemberID", familyMemberID);
                 command.ExecuteNonQuery();
             }
         }

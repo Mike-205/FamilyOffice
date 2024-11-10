@@ -5,14 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Family_Office.pages"
       mc:Ignorable="d" 
-      d:DesignHeight="750" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="800"
       Title="Investments">
 
     <Page.Resources>
         <Style x:Key="HeaderStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Foreground" Value="#000080"/>
             <Setter Property="Margin" Value="15,10"/>
         </Style>
 
@@ -32,10 +32,11 @@
         </Style>
 
         <Style TargetType="TextBlock">
-            <Setter Property="Margin" Value="5,0,5,0"/>
+            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="Navy"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#000080"/>
         </Style>
     </Page.Resources>
 
@@ -47,15 +48,15 @@
         </Grid.RowDefinitions>
         <!-- Background -->
         <Grid.Background>
-            <ImageBrush ImageSource="/Images/Background image .jpg" Opacity=".8"/>
+            <ImageBrush ImageSource="/Images/backgroundImage1.jpg" Opacity=".8"/>
         </Grid.Background>
 
         <!-- Header -->
-        <Border Grid.Row="0" Background="White">
+        <Border Grid.Row="0" Background="White" Opacity="0.9">
             <TextBlock Text="Investment" Style="{StaticResource HeaderStyle}"/>
         </Border>
 
-        <Border Background="White" Opacity="0.85" Margin="15" Padding="10" Grid.Row="1" CornerRadius="6">
+        <Border Background="White" Opacity="0.83" Margin="15" Padding="10" Grid.Row="1" CornerRadius="6">
             <TabControl Margin="10">
                 <TabItem Header="Gold Purchase">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -117,8 +118,7 @@
                                 </GroupBox>
 
                                 <!-- Purchase Information -->
-                                <GroupBox Header="Purchase Information" Style="{StaticResource GroupBoxStyle}"
-         x:Name="NewInvestmentSection">
+                                <GroupBox Header="Purchase Information" Style="{StaticResource GroupBoxStyle}">
                                     <StackPanel>
                                         <DockPanel>
                                             <TextBlock Text="Purchase Via:"/>
@@ -313,8 +313,7 @@
                                         </DockPanel>
 
                                         <!-- Co-ownership Grid -->
-                                        <DataGrid AutoGenerateColumns="False" Height="150" 
-                                            x:Name="CoOwnershipGrid" Visibility="Collapsed">
+                                        <DataGrid AutoGenerateColumns="False" Height="150" Visibility="Collapsed">
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="Owner Name" Width="*"/>
                                                 <DataGridTextColumn Header="Ownership %" Width="100"/>
@@ -336,8 +335,7 @@
                                         </DockPanel>
 
                                         <!-- Installment Details Grid -->
-                                        <DataGrid AutoGenerateColumns="False" Height="150" Margin="0,10,0,0"
-                                            x:Name="InstallmentGrid" Visibility="Collapsed">
+                                        <DataGrid AutoGenerateColumns="False" Height="150" Margin="0,10,0,0" Visibility="Collapsed">
                                             <DataGrid.Columns>
                                                 <DataGridTextColumn Header="Due Date" Width="*"/>
                                                 <DataGridTextColumn Header="Amount" Width="*"/>

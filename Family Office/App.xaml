@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Family_Office"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        
     </Application.Resources>
 </Application>

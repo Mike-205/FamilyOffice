@@ -5,7 +5,7 @@ namespace Family_Office.DataAccess
 {
     public class CurrencyTypeDataAccess
     {
-        private static string ConnectionString = "Data Source=family_office.db;Version=3;";
+        private static string ConnectionString = "Data Source=example.db;Version=3;";
 
         public static List<CurrencyType> GetCurrencyTypes()
         {
