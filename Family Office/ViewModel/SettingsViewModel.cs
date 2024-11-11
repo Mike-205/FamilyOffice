@@ -35,6 +35,7 @@ namespace Family_Office.ViewModel
         {
             InitializeCommands();
             LoadSettings();
+            //ExecuteReset();
         }
 
         #region Properties
@@ -331,12 +332,26 @@ namespace Family_Office.ViewModel
         {
             try
             {
+                Debug.WriteLine($"Saving settings with ID: {_currentSettings.settingsID}");
+                Debug.WriteLine($"Current Settings state:");
+                Debug.WriteLine($"FontFamily: {_currentSettings.FontFamily}");
+                Debug.WriteLine($"PrimaryColor: {_currentSettings.PrimaryColor}");
+                Debug.WriteLine($"BackgroundColor: {_currentSettings.BackgroundColor}");
+
+                if (_currentSettings.settingsID == 0)
+                {
+                    // If settingsID is 0, we need to reload settings to get the correct ID
+                    var dbSettings = SettingDataAccess.GetSettings();
+                    _currentSettings.settingsID = dbSettings.settingsID;
+                }
+
                 SettingDataAccess.UpdateSettings(_currentSettings);
                 IsDirty = false;
                 MessageBox.Show("Settings saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
+                Debug.WriteLine($"Error saving settings: {ex}");
                 MessageBox.Show($"Error saving settings: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -344,7 +359,7 @@ namespace Family_Office.ViewModel
         // Create a separate method for default settings to avoid duplication
         private Settings CreateDefaultSettings()
         {
-            return new Settings
+            var defaultSettings = new Settings
             {
                 DateFormat = "DD/MM/YYYY",
                 BaseCurrency = "USD - US Dollar",
@@ -357,6 +372,7 @@ namespace Family_Office.ViewModel
                 HeaderFontSize = 24,
                 PrimaryColor = "#000080",
                 BackgroundColor = "#FFFFFF",
+                SecondaryColor = "#FFFFFF",  // Add this line
                 HighContrast = false,
                 LargeTextMode = false,
                 Scale = 100,
@@ -367,6 +383,12 @@ namespace Family_Office.ViewModel
                 ShowFocusIndication = true,
                 UseAnimation = true
             };
+
+            // Save to database to get an ID
+            SettingDataAccess.UpdateSettings(defaultSettings);
+
+            // Reload to get the ID
+            return SettingDataAccess.GetSettings();
         }
 
         private void ExecuteCancel()
@@ -425,28 +447,28 @@ namespace Family_Office.ViewModel
             try
             {
                 // Add debug message
-                Debug.WriteLine("Attempting to load settings from database...");
+                System.Diagnostics.Debug.WriteLine("Attempting to load settings from database...");
 
                 // Try to load existing settings
                 _currentSettings = SettingDataAccess.GetSettings();
 
-                Debug.WriteLine($"Settings loaded from DB: {(_currentSettings != null ? "Success" : "Null")}");
+                System.Diagnostics.Debug.WriteLine($"Settings loaded from DB: {(_currentSettings != null ? "Success" : "Null")}");
 
                 // If no settings exist or if they're null, initialize with defaults
                 if (_currentSettings == null)
                 {
-                    Debug.WriteLine("Creating default settings...");
+                    System.Diagnostics.Debug.WriteLine("Creating default settings...");
                     _currentSettings = CreateDefaultSettings();
                     // Save default settings to database
                     SettingDataAccess.UpdateSettings(_currentSettings);
-                    Debug.WriteLine("Default settings saved to database.");
+                    System.Diagnostics.Debug.WriteLine("Default settings saved to database.");
                 }
 
                 // Log current settings values
-                Debug.WriteLine($"Current Settings Values:");
-                Debug.WriteLine($"FontFamily: {_currentSettings.FontFamily}");
-                Debug.WriteLine($"BodyFontSize: {_currentSettings.BodyFontSize}");
-                Debug.WriteLine($"PrimaryColor: {_currentSettings.PrimaryColor}");
+                System.Diagnostics.Debug.WriteLine($"Current Settings Values:");
+                System.Diagnostics.Debug.WriteLine($"FontFamily: {_currentSettings.FontFamily}");
+                System.Diagnostics.Debug.WriteLine($"BodyFontSize: {_currentSettings.BodyFontSize}");
+                System.Diagnostics.Debug.WriteLine($"PrimaryColor: {_currentSettings.PrimaryColor}");
 
                 // Initialize collections first
                 PopulateComboBoxCollections();
@@ -456,8 +478,8 @@ namespace Family_Office.ViewModel
                 _selectedPrimaryColor = PrimaryColors?.FirstOrDefault(c => c.Value == _currentSettings.PrimaryColor);
                 _selectedBackgroundColor = BackgroundColors?.FirstOrDefault(c => c.Value == _currentSettings.BackgroundColor);
 
-                Debug.WriteLine($"Selected Primary Color: {_selectedPrimaryColor?.DisplayName ?? "null"}");
-                Debug.WriteLine($"Selected Background Image: {_selectedBackgroundImage?.DisplayName ?? "null"}");
+                System.Diagnostics.Debug.WriteLine($"Selected Primary Color: {_selectedPrimaryColor?.DisplayName ?? "null"}");
+                System.Diagnostics.Debug.WriteLine($"Selected Background Image: {_selectedBackgroundImage?.DisplayName ?? "null"}");
 
                 // Set defaults if null
                 if (_selectedBackgroundImage == null && BackgroundImages.Any())
@@ -469,13 +491,13 @@ namespace Family_Office.ViewModel
                 if (_selectedPrimaryColor == null && PrimaryColors.Any())
                 {
                     _selectedPrimaryColor = PrimaryColors.First();
-                    Debug.WriteLine($"Set default primary color: {_selectedPrimaryColor.DisplayName}");
+                    System.Diagnostics.Debug.WriteLine($"Set default primary color: {_selectedPrimaryColor.DisplayName}");
                 }
 
                 if (_selectedBackgroundColor == null && BackgroundColors.Any())
                 {
                     _selectedBackgroundColor = BackgroundColors.First();
-                    Debug.WriteLine($"Set default background color: {_selectedBackgroundColor.DisplayName}");
+                    System.Diagnostics.Debug.WriteLine($"Set default background color: {_selectedBackgroundColor.DisplayName}");
                 }
 
                 IsDirty = false;

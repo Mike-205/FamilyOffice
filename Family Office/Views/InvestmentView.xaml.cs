@@ -23,6 +23,7 @@ namespace Family_Office.Views
         public InvestmentView()
         {
             InitializeComponent();
+            DataContext = new InvestmentPageViewModel();
         }
     }
 }

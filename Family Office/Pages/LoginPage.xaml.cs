@@ -11,7 +11,7 @@ namespace Family_Office.pages
 {
     public partial class LoginPage : Page
     {
-        private readonly string connectionString = "Data Source=example.db;Version=3;";
+        private readonly string connectionString = "Data Source=example5.db;Version=3;";
         private byte[]? profileImageData;
 
         public LoginPage()

@@ -10,7 +10,7 @@ namespace Family_Office.DataAccess
 {
     public class DocumentDataAccess
     {
-        public static string ConnectionString = "Data Source=example.db;Version=3;";
+        public static string ConnectionString = "Data Source=example5.db;Version=3;";
 
         public static List<Document> GetDocuments()
         {

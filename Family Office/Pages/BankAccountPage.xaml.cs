@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Family_Office.Inteface;
+using Family_Office.ViewModel;
+using System.Diagnostics;
 
 using System.Windows.Controls;
 
@@ -11,13 +13,13 @@ namespace Family_Office.pages
     {
         public BankAccountPage()
         {
-            try
-            {
-                InitializeComponent();
-            } catch (Exception ex)
-            {
-                Debug.WriteLine($"Settings Constructor Error: {ex.Message}");
-            }
+            InitializeComponent();
+            DataContext = new BankManagementViewModel(new SQLiteDataService());
+        }
+
+        private void BankNameComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Family_Office.DataAccess
 {
     public static class DatabaseHelper
     {
-        private static readonly string DbFilePath = "example.db"; // Path to SQLite DB file
+        private static readonly string DbFilePath = "example5.db"; // Path to SQLite DB file
 
         public static SQLiteConnection GetConnection()
         {
@@ -196,7 +196,8 @@ namespace Family_Office.DataAccess
                     AnnualMaintenanceCost REAL,
                     Document BLOB,
                     PurchaseDate TEXT,
-                    InCareOf TEXT
+                    InCareOf TEXT,
+                    Currency TEXT
                 );";
             ExecuteTableCreation(query, "GoldInvestment");
         }
@@ -217,7 +218,8 @@ namespace Family_Office.DataAccess
                     AnnualMaintenanceCost REAL,
                     BrokerCost REAL,
                     Ownership TEXT,
-                    Document BLOB
+                    Document BLOB,
+                    UnitOfMeasurement TEXT
                 );";
             ExecuteTableCreation(query, "PropertyInvestment");
         }

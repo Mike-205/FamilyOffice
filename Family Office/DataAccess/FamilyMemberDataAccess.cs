@@ -5,7 +5,7 @@ namespace Family_Office.DataAccess
 {
     public class FamilyMemberDataAccess
     {
-        private static string ConnectionString = "Data Source=example.db;Version=3;";
+        private static string ConnectionString = "Data Source=example5.db;Version=3;";
 
         public static List<FamilyMember> GetFamilyMembers()
         {

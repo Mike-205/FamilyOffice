@@ -21,5 +21,6 @@ namespace Family_Office.Models
         public double BrokerCost { get; set; }
         public string Ownership { get; set; }
         public byte[] Document { get; set; }
+        public string UnitOfMeasurement { get; set; }
     }
 }

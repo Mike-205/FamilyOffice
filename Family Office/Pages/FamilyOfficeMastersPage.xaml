@@ -54,11 +54,6 @@
     </Page.Resources>
 
     <Grid>
-        <!-- Background Image -->
-        <Image Source="/Images/backgroundImage1.jpg" 
-               Stretch="UniformToFill"
-               Opacity="0.8"/>
-
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -92,7 +87,7 @@
                 <StackPanel>
                     <!-- Content Panel with semi-transparent background -->
                     <Border Background="#FFFFFF" 
-                            Opacity="0.85" 
+                            Opacity="065" 
                             CornerRadius="6" 
                             Padding="20">
                         <!-- Two Column Content Grid -->

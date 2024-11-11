@@ -20,5 +20,6 @@ namespace Family_Office.Models
         public byte[] Document { get; set; }
         public string PurchaseDate { get; set; }
         public string InCareOf { get; set; }
+        public string Currency { get; set; }
     }
 }

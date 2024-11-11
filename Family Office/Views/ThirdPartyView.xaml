@@ -1,13 +1,14 @@
-﻿<Page x:Class="Family_Office.Views.InvestmentView"
+﻿<Page x:Class="Family_Office.pages.ThirdPartyView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Family_Office.Views"
+      xmlns:local="clr-namespace:Family_Office.pages"
       xmlns:viewmodels ="clr-namespace:Family_Office.ViewModel"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
+      Background="Transparent"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="InvestmentView">
+      Title="ThirdParty">
 
     <Page.Resources>
         <!-- Loading Spinner Style -->
@@ -17,9 +18,9 @@
                     <ControlTemplate TargetType="Control">
                         <Grid Background="#80000000">
                             <TextBlock Text="Loading..." 
-                                     Foreground="White" 
-                                     HorizontalAlignment="Center" 
-                                     VerticalAlignment="Center"/>
+                                 Foreground="White" 
+                                 HorizontalAlignment="Center" 
+                                 VerticalAlignment="Center"/>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -48,7 +49,7 @@
         <!-- Header -->
         <Grid Grid.Row="0" Background="White" Opacity="0.9">
             <StackPanel Orientation="Horizontal" Margin="25,0,0,0" VerticalAlignment="Center">
-                <TextBlock Text="Investments" 
+                <TextBlock Text="ThirdParty" 
                          Foreground="Navy" 
                          FontSize="24" 
                          FontWeight="Bold"/>
@@ -66,7 +67,6 @@
             <Grid Grid.Row="0" Margin="25,25,25,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
@@ -97,39 +97,22 @@
                     </Grid>
                 </Border>
 
-                <!-- Add investment Button -->
+                <!-- Add Member Button -->
                 <Button Grid.Column="1"
                         Height="32" 
-                        Content="+ Add Gold" 
+                        Content="+ Add ThirdParty" 
                         Width="120" 
-                        Margin="10,0,0,0"
+                        Margin="15,0,0,0"
                         Background="Navy"
                         Foreground="White"
                         BorderThickness="0"
-                        Command="{Binding AddGoldCommand}">
+                        Command="{Binding AddThirdPartyCommand}">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="4"/>
                         </Style>
                     </Button.Resources>
                 </Button>
-                
-                <Button Grid.Column="2"
-                    Height="32" 
-                    Content="+ Add Property" 
-                    Width="120" 
-                    Margin="10,0,0,0"
-                    Background="Blue"
-                    Foreground="White"
-                    BorderThickness="0"
-                    Command="{Binding AddPropertyCommand}">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="4"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
             </Grid>
 
             <!-- ListView with Headers -->
@@ -138,44 +121,64 @@
                       BorderThickness="1" 
                       Margin="25,15,25,25"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ItemsSource="{Binding InvestmentsCollection}">
+                      ItemsSource="{Binding ThirdParties}">
 
                 <ListView.View>
                     <GridView>
-                        <!-- Type of investment(Gold/Property) -->
-                        <GridViewColumn Header="Investment Type" Width="200">
+                        <!-- Name Column -->
+                        <GridViewColumn Header="ThirdParyID" Width="100">
                             <GridViewColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="Investment Type" 
+                                    <TextBlock Text="ThirdParyID" 
                                              FontWeight="SemiBold" 
                                              Foreground="#333"/>
                                 </DataTemplate>
                             </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding InvestmentType}"/>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding PartyID}"/>
+                                    </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <!-- gold/property type -->
-                        <GridViewColumn Header="Type" Width="150">
+                        <!-- Contact Information -->
+                        <GridViewColumn Header="ThirdParyName" Width="150">
                             <GridViewColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="Type" 
+                                    <TextBlock Text="ThirdParyName" 
                                              FontWeight="SemiBold" 
                                              Foreground="#333"/>
                                 </DataTemplate>
                             </GridViewColumn.HeaderTemplate>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Type}"/>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding FullName}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <!-- Status Column -->
+                        <GridViewColumn Header="Association Date" Width="150">
+                            <GridViewColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Association Date" 
+                                             FontWeight="SemiBold" 
+                                             Foreground="#333"/>
+                                </DataTemplate>
+                            </GridViewColumn.HeaderTemplate>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PartyType}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
                         <!-- Actions Column -->
-                        <GridViewColumn Header="Actions" Width="200">
+                        <GridViewColumn Header="Actions" Width="150">
                             <GridViewColumn.HeaderTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="Actions" 
@@ -193,7 +196,7 @@
                                                 Background="#007ACC"
                                                 Foreground="White"
                                                 BorderThickness="0"
-                                                Command="{Binding DataContext.EditInvestmentCommand, 
+                                                Command="{Binding DataContext.EditThirdPartyCommand, 
                                                     RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding}">
                                             <Button.Resources>
@@ -208,7 +211,7 @@
                                                 Background="#DC3545"
                                                 Foreground="White"
                                                 BorderThickness="0"
-                                                Command="{Binding DataContext.RemoveInvestmentCommand,
+                                                Command="{Binding DataContext.RemoveThirdPartyCommand,
                                                     RelativeSource={RelativeSource AncestorType=ListView}}"
                                                 CommandParameter="{Binding}">
                                             <Button.Resources>
@@ -228,16 +231,16 @@
                 <ListView.Template>
                     <ControlTemplate TargetType="ListView">
                         <Border BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}">
                             <Grid>
                                 <ScrollViewer x:Name="ScrollViewer"
-                                Padding="{TemplateBinding Padding}"
-                                Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
+                                        Padding="{TemplateBinding Padding}"
+                                        Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
                                     <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </ScrollViewer>
-                                <TextBlock Text="No Investments found"
-                             Style="{StaticResource NoDataMessageStyle}"
-                             Visibility="{Binding NoDataAvailable, Converter={StaticResource BoolToVisibility}}"/>
+                                <TextBlock Text="No Third parties found"
+                                     Style="{StaticResource NoDataMessageStyle}"
+                                     Visibility="{Binding NoDataAvailable, Converter={StaticResource BoolToVisibility}}"/>
                             </Grid>
                         </Border>
                     </ControlTemplate>

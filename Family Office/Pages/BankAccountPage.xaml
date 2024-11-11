@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Family_Office.pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="950" d:DesignWidth="800"
       Title="BankAccountPage">
 
     <Page.Resources>
@@ -79,68 +79,68 @@
                                         <!-- Left Column -->
                                         <StackPanel Grid.Column="0" Margin="0,0,10,0">
                                             <Label Content="Bank Name"/>
-                                            <ComboBox x:Name="BankNameComboBox">
-                                                <ComboBoxItem>Chase</ComboBoxItem>
-                                                <ComboBoxItem>Bank of America</ComboBoxItem>
-                                                <ComboBoxItem>Wells Fargo</ComboBoxItem>
-                                                <ComboBoxItem>Citibank</ComboBoxItem>
-                                            </ComboBox>
+                                            <ComboBox ItemsSource="{Binding BankNames}"
+                                                      SelectedItem="{Binding BankName, UpdateSourceTrigger=PropertyChanged}"/>
 
                                             <Label Content="Account Holder"/>
-                                            <ComboBox x:Name="AccountHolderComboBox">
-                                                <ComboBoxItem>John Smith</ComboBoxItem>
-                                                <ComboBoxItem>Jane Smith</ComboBoxItem>
-                                                <ComboBoxItem>Robert Smith</ComboBoxItem>
-                                            </ComboBox>
+                                            <TextBox Text="{Binding AccountHolder, UpdateSourceTrigger=PropertyChanged}"/>
 
                                             <Label Content="Account Type"/>
-                                            <ComboBox x:Name="AccountTypeComboBox">
-                                                <ComboBoxItem>Checking</ComboBoxItem>
-                                                <ComboBoxItem>Savings</ComboBoxItem>
-                                                <ComboBoxItem>Investment</ComboBoxItem>
-                                            </ComboBox>
+                                            <ComboBox ItemsSource="{Binding AccountTypes}"
+                                                      SelectedItem="{Binding AccountType, UpdateSourceTrigger=PropertyChanged}"/>
 
                                             <Label Content="Account Number"/>
-                                            <TextBox x:Name="AccountNumberTextBox"/>
+                                            <TextBox Text="{Binding AccountNumber, UpdateSourceTrigger=PropertyChanged}"/>
 
                                             <Label Content="Opening Balance"/>
-                                            <TextBox x:Name="OpeningBalanceTextBox"/>
+                                            <TextBox Text="{Binding OpeningBalance, UpdateSourceTrigger=PropertyChanged, StringFormat=C}"/>
                                         </StackPanel>
 
                                         <!-- Right Column -->
                                         <StackPanel Grid.Column="1">
                                             <Label Content="Country"/>
-                                            <ComboBox x:Name="CountryComboBox">
-                                                <ComboBoxItem>United States</ComboBoxItem>
-                                                <ComboBoxItem>United Kingdom</ComboBoxItem>
-                                                <ComboBoxItem>Canada</ComboBoxItem>
-                                                <ComboBoxItem>Australia</ComboBoxItem>
-                                            </ComboBox>
+                                            <ComboBox ItemsSource="{Binding Countries}"
+                                                      SelectedItem="{Binding Country, UpdateSourceTrigger=PropertyChanged}"/>
 
                                             <Label Content="SWIFT Code"/>
-                                            <TextBox x:Name="SwiftCodeTextBox"/>
+                                            <TextBox Text="{Binding SwiftCode, UpdateSourceTrigger=PropertyChanged}"/>
 
                                             <Label Content="Branch Location"/>
-                                            <TextBox x:Name="BranchLocationTextBox"/>
+                                            <TextBox Text="{Binding BranchLocation, UpdateSourceTrigger=PropertyChanged}"/>
 
                                             <Label Content="Nominee"/>
-                                            <TextBox x:Name="NomineeTextBox"/>
+                                            <TextBox Text="{Binding Nominee, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
                                     </Grid>
                                 </GroupBox>
 
+                                <!-- Bank Accounts List -->
+                                <GroupBox Header="Existing Bank Accounts" Margin="0,10,0,0" Padding="10">
+                                    <ListView ItemsSource="{Binding BankAccounts}"
+                                              SelectedItem="{Binding SelectedBankAccount}"
+                                              Height="150">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Bank Name" Width="140" DisplayMemberBinding="{Binding BankName}"/>
+                                                <GridViewColumn Header="Account Type" Width="160" DisplayMemberBinding="{Binding AccountType}"/>
+                                                <GridViewColumn Header="Account Number" Width="160" DisplayMemberBinding="{Binding AccountNumber}"/>
+                                                <GridViewColumn Header="Balance" Width="160" DisplayMemberBinding="{Binding OpeningBalance, StringFormat=C}"/>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </GroupBox>
+
                                 <!-- Buttons -->
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10">
-                                    <Button x:Name="CreateAccountButton"
-                                            Content="Create Account" 
+                                    <Button Content="Create Account" 
+                                            Command="{Binding CreateAccountCommand}"
                                             Width="120" Height="30" 
                                             Margin="5" Background="Navy" 
                                             Foreground="White"/>
 
-                                    <Button x:Name="SaveChangesButton"
-                                            Content="Save Changes" 
-                                            Width="120" 
-                                            Height="30" 
+                                    <Button Content="Save Changes" 
+                                            Command="{Binding SaveChangesCommand}"
+                                            Width="120" Height="30" 
                                             Margin="5"/>
                                 </StackPanel>
                             </StackPanel>
@@ -161,42 +161,45 @@
                                         <!-- Left Column -->
                                         <StackPanel Grid.Column="0" Margin="0,0,10,0">
                                             <Label Content="Location"/>
-                                            <ComboBox x:Name="CashLocationComboBox">
-                                                <ComboBoxItem>United States</ComboBoxItem>
-                                                <ComboBoxItem>United Kingdom</ComboBoxItem>
-                                                <ComboBoxItem>Canada</ComboBoxItem>
-                                                <ComboBoxItem>Australia</ComboBoxItem>
-                                            </ComboBox>
+                                            <ComboBox ItemsSource="{Binding Locations}"
+                                                      SelectedItem="{Binding CashLocation, UpdateSourceTrigger=PropertyChanged}"/>
 
                                             <Label Content="Currency"/>
-                                            <ComboBox x:Name="CurrencyComboBox">
-                                                <ComboBoxItem>USD</ComboBoxItem>
-                                                <ComboBoxItem>EUR</ComboBoxItem>
-                                                <ComboBoxItem>GBP</ComboBoxItem>
-                                                <ComboBoxItem>CAD</ComboBoxItem>
-                                                <ComboBoxItem>AUD</ComboBoxItem>
-                                            </ComboBox>
+                                            <ComboBox ItemsSource="{Binding Currencies}"
+                                                      SelectedItem="{Binding Currency, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
 
                                         <!-- Right Column -->
                                         <StackPanel Grid.Column="1">
                                             <Label Content="In Care Of"/>
-                                            <ComboBox x:Name="InCareOfComboBox">
-                                                <ComboBoxItem>John Smith</ComboBoxItem>
-                                                <ComboBoxItem>Jane Smith</ComboBoxItem>
-                                                <ComboBoxItem>Robert Smith</ComboBoxItem>
-                                            </ComboBox>
+                                            <TextBox Text="{Binding InCareOf, UpdateSourceTrigger=PropertyChanged}"/>
 
                                             <Label Content="Amount"/>
-                                            <TextBox x:Name="AmountTextBox"/>
+                                            <TextBox Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged, StringFormat=C}"/>
                                         </StackPanel>
                                     </Grid>
                                 </GroupBox>
 
+                                <!-- Cash Assets List -->
+                                <GroupBox Header="Existing Cash Assets" Margin="0,10,0,0" Padding="10">
+                                    <ListView ItemsSource="{Binding CashAssets}"
+                                              SelectedItem="{Binding SelectedCashAsset}"
+                                              Height="150">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Location" Width="160" DisplayMemberBinding="{Binding Location}"/>
+                                                <GridViewColumn Header="Currency" Width="150" DisplayMemberBinding="{Binding Currency}"/>
+                                                <GridViewColumn Header="In Care Of" Width="150" DisplayMemberBinding="{Binding InCareOf}"/>
+                                                <GridViewColumn Header="Amount" Width="160" DisplayMemberBinding="{Binding Amount, StringFormat=C}"/>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </GroupBox>
+
                                 <!-- Button -->
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10">
-                                    <Button x:Name="SaveCashEntryButton"
-                                            Content="Save Cash Entry"
+                                    <Button Content="Save Cash Entry"
+                                            Command="{Binding SaveCashEntryCommand}"
                                             Width="120" Height="30" 
                                             Margin="5" Background="Navy" 
                                             Foreground="White"/>

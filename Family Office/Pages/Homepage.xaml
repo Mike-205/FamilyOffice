@@ -11,115 +11,137 @@
       Title="Homepage">
 
     <Page.Resources>
-        <Style x:Key="SidebarButtonStyle" TargetType="Button">
-            <Setter Property="Height" Value="60"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="5">
-                            <ContentPresenter HorizontalAlignment="Left" 
-                                            VerticalAlignment="Center"
-                                            Margin="15,0,0,0"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#3f3f3f"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+        <ResourceDictionary>
+            <Style x:Key="SidebarButtonStyle" TargetType="Button">
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="Left" 
+                                                VerticalAlignment="Center"
+                                                Margin="15,0,0,0"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#3f3f3f"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
     </Page.Resources>
 
-    <!-- Main Grid to fill the entire screen -->
     <Grid HorizontalAlignment="Stretch" 
           VerticalAlignment="Stretch">
+       
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Sliding Sidebar -->
         <Border x:Name="Sidebar" 
                 Width="250" 
                 Background="Navy"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Stretch">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" 
+                         HorizontalScrollBarVisibility="Disabled">
                 <StackPanel>
-                    <Button Style="{StaticResource SidebarButtonStyle}" Click="NavigateToSection">
+                    <Button Style="{StaticResource SidebarButtonStyle}" 
+                            Click="NavigateToSection">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="🏢" FontSize="20" Margin="0,0,10,0"/>
-                            <TextBlock Text="Family Office Masters" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text="Family Office Masters" 
+                                     Foreground="White" 
+                                     VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource SidebarButtonStyle}" Click="NavigateToSection">
+                    <Button Style="{StaticResource SidebarButtonStyle}" 
+                            Click="NavigateToSection">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="👨‍👩‍👧‍👦" FontSize="20" Margin="0,0,10,0"/>
-                            <TextBlock Text="Family Members Masters" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text="Family Members Masters" 
+                                     Foreground="White" 
+                                     VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource SidebarButtonStyle}" Click="NavigateToSection">
+                    <Button Style="{StaticResource SidebarButtonStyle}" 
+                            Click="NavigateToSection">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="💼" FontSize="20" Margin="0,0,10,0"/>
-                            <TextBlock Text="Investments/Assets Master" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text="Investments/Assets Master" 
+                                     Foreground="White" 
+                                     VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource SidebarButtonStyle}" Click="NavigateToSection">
+                    <Button Style="{StaticResource SidebarButtonStyle}" 
+                            Click="NavigateToSection">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="🔑" FontSize="20" Margin="0,0,10,0"/>
-                            <TextBlock Text="Third Party" Foreground="White"/>
+                            <TextBlock Text="Third Party" 
+                                     Foreground="White"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource SidebarButtonStyle}" Click="NavigateToSection">
+                    <Button Style="{StaticResource SidebarButtonStyle}" 
+                            Click="NavigateToSection">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="👤" FontSize="20" Margin="0,0,10,0"/>
-                            <TextBlock Text="Bank Management" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text="Bank Management" 
+                                     Foreground="White" 
+                                     VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource SidebarButtonStyle}" Click="NavigateToSection">
+                    <Button Style="{StaticResource SidebarButtonStyle}" 
+                            Click="NavigateToSection">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="🎯" FontSize="20" Margin="0,0,10,0"/>
-                            <TextBlock Text="Goal Settings" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text="Goal Settings" 
+                                     Foreground="White" 
+                                     VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource SidebarButtonStyle}" Click="NavigateToSection">
+                    <Button Style="{StaticResource SidebarButtonStyle}" 
+                            Click="NavigateToSection">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="📊" FontSize="20" Margin="0,0,10,0"/>
-                            <TextBlock Text="Reports" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text="Reports" 
+                                     Foreground="White" 
+                                     VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
 
-                    <Button Style="{StaticResource SidebarButtonStyle}" Click="NavigateToSection">
+                    <Button Style="{StaticResource SidebarButtonStyle}" 
+                            Click="NavigateToSection">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="⚙️" FontSize="20" Margin="0,0,10,0"/>
-                            <TextBlock Text="Settings" Foreground="White" VerticalAlignment="Center"/>
+                            <TextBlock Text="Settings" 
+                                     Foreground="White" 
+                                     VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </StackPanel>
             </ScrollViewer>
         </Border>
 
-        <!-- Main Content Area -->
         <Grid Grid.Column="1"
               HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch"
-              Background="Transparent">
-              
+              VerticalAlignment="Stretch">
             <Frame x:Name="MainContentFrame" 
                    NavigationUIVisibility="Hidden"
                    HorizontalAlignment="Stretch"

@@ -6,15 +6,40 @@ namespace Family_Office.DataAccess
 
     public class SettingDataAccess
     {
-        private static string ConnectionString = "Data Source=example.db;Version=3;";
+        private static string ConnectionString = "Data Source=example5.db;Version=3;";
 
         public static Settings GetSettings()
         {
-            Settings settings = new Settings();
             using (var connection = new SQLiteConnection(ConnectionString))
             {
                 connection.Open();
+
+                // First check if any settings exist
+                var checkCommand = new SQLiteCommand("SELECT COUNT(*) FROM Settings", connection);
+                int count = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                if (count == 0)
+                {
+                    // Insert default settings if none exist
+                    var insertCommand = new SQLiteCommand(@"
+                INSERT INTO Settings (
+                    DateFormat, BaseCurrency, ShowExchangeRatesInList, ShowBaseCurrencyEquivalent,
+                    UseThousandsSeparator, DecimalPlaces, FontFamily, BodyFontSize, HeaderFontSize,
+                    PrimaryColor, SecondaryColor, BackgroundColor, HighContrast, LargeTextMode,
+                    Scale, MarginSize, BorderWidth, BackgroundImage, EnableHoverEffects,
+                    ShowFocusIndication, UseAnimation)
+                VALUES (
+                    'DD/MM/YYYY', 'USD - US Dollar', 1, 1, 1, 2, 'Arial', 12, 24,
+                    '#000080', '#FFFFFF', '#FFFFFF', 0, 0, 100, 5, 1.0,
+                    '/Images/backgroundImage1.jpg', 1, 1, 1)", connection);
+
+                    insertCommand.ExecuteNonQuery();
+                }
+
+                // Now get the settings
                 var command = new SQLiteCommand("SELECT * FROM Settings LIMIT 1", connection);
+                Settings settings = new Settings();
+
                 using (var reader = command.ExecuteReader())
                 {
                     if (reader.Read())
@@ -43,8 +68,8 @@ namespace Family_Office.DataAccess
                         settings.UseAnimation = reader.GetBoolean(21);
                     }
                 }
+                return settings;
             }
-            return settings;
         }
 
         public static void UpdateSettings(Settings settings)

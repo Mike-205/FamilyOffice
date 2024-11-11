@@ -10,7 +10,7 @@ namespace Family_Office.DataAccess
 {
     public class PropertyInvestmentDataAccess
     {
-        private static string ConnectionString = "Data Source=example.db;Version=3;";
+        private static string ConnectionString = "Data Source=example5.db;Version=3;";
 
         public static List<PropertyInvestment> GetPropertyInvestments()
         {
@@ -41,6 +41,7 @@ namespace Family_Office.DataAccess
                             BrokerCost = reader.GetDouble(10),
                             Ownership = reader.GetString(11),
                             Document = reader["Document"] as byte[],
+                            UnitOfMeasurement = reader.GetString(12)
                         });
                     }
                 }
@@ -49,7 +50,7 @@ namespace Family_Office.DataAccess
             return investments;
         }
 
-        public static void InsertPropertyInvestment(PropertyInvestment investment)
+        public static void AddPropertyInvestment(PropertyInvestment investment)
         {
             string query = @"
         INSERT INTO PropertyInvestment 
@@ -76,7 +77,7 @@ namespace Family_Office.DataAccess
                     command.Parameters.AddWithValue("@BrokerCost", investment.BrokerCost);
                     command.Parameters.AddWithValue("@Ownership", investment.Ownership);
                     command.Parameters.AddWithValue("@Document", investment.Document);
-
+                    command.Parameters.AddWithValue("@UnitOfMeasurement", investment.UnitOfMeasurement);
                     command.ExecuteNonQuery();
                 }
             }
@@ -118,7 +119,7 @@ namespace Family_Office.DataAccess
                     command.Parameters.AddWithValue("@BrokerCost", investment.BrokerCost);
                     command.Parameters.AddWithValue("@Ownership", investment.Ownership);
                     command.Parameters.AddWithValue("@Document", investment.Document);
-
+                    command.Parameters.AddWithValue("@UnitOfMeasurement", investment.UnitOfMeasurement);
                     command.ExecuteNonQuery();
                 }
             }

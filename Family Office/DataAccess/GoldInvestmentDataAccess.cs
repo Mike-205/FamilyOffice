@@ -5,7 +5,7 @@ namespace Family_Office.DataAccess
 {
     public class GoldInvestmentDataAccess
     {
-        private static string ConnectionString = "Data Source=example.db;Version=3;";
+        private static string ConnectionString = "Data Source=example5.db;Version=3;";
 
         public static List<GoldInvestment> GetGoldInvestments()
         {
@@ -34,7 +34,8 @@ namespace Family_Office.DataAccess
                             AnnualMaintenanceCost = reader.GetDouble(8),
                             Document = reader["Document"] as byte[],
                             PurchaseDate = reader.GetString(9),
-                            InCareOf = reader.GetString(10)
+                            InCareOf = reader.GetString(10),
+                            Currency = reader.GetString(11)
                         });
                     }
                 }
@@ -69,7 +70,7 @@ namespace Family_Office.DataAccess
                     command.Parameters.AddWithValue("@Document", investment.Document);
                     command.Parameters.AddWithValue("@PurchaseDate", investment.PurchaseDate);
                     command.Parameters.AddWithValue("@InCareOf", investment.InCareOf);
-
+                    command.Parameters.AddWithValue("@Currency", investment.Currency);
                     command.ExecuteNonQuery();
                 }
             }
@@ -109,7 +110,7 @@ namespace Family_Office.DataAccess
                     command.Parameters.AddWithValue("@Document", investment.Document);
                     command.Parameters.AddWithValue("@PurchaseDate", investment.PurchaseDate);
                     command.Parameters.AddWithValue("@InCareOf", investment.InCareOf);
-
+                    command.Parameters.AddWithValue("@Currency", investment.Currency);
                     command.ExecuteNonQuery();
                 }
             }

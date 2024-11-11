@@ -6,7 +6,7 @@ namespace Family_Office.DataAccess
     public class CashAssetDataAccess
     {
 
-        private static string ConnectionString = "Data Source=example.db;Version=3;";
+        private static string ConnectionString = "Data Source=example5.db;Version=3;";
 
         public static List<CashAsset> GetCashAssets()
         {
@@ -79,6 +79,22 @@ namespace Family_Office.DataAccess
                     command.Parameters.AddWithValue("@InCareOf", cashAsset.InCareOf);
                     command.Parameters.AddWithValue("@Currency", cashAsset.Currency);
                     command.Parameters.AddWithValue("@Amount", cashAsset.Amount);
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public static void DeleteCashAsset(int cashAssetID)
+        {
+            string query = "DELETE FROM CashAsset WHERE CashAssetID = @CashAssetID";
+
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                connection.Open();
+                using (var command = new SQLiteCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@CashAssetID", cashAssetID);
 
                     command.ExecuteNonQuery();
                 }
