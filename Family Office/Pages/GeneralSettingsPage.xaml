@@ -7,12 +7,12 @@
       xmlns:converters="clr-namespace:Family_Office.Converters"
       xmlns:viewModel="clr-namespace:Family_Office.ViewModel"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="900"
+      d:DesignHeight="950" d:DesignWidth="900"
       Title="GeneralSettingsPage">
 
     <Page.Resources>
         <converters:KeyValueItemToBrushConverter x:Key="KeyValueItemToBrushConverter"/>
-        
+
         <Style TargetType="Label">
             <Setter Property="Margin" Value="5,5,5,0"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -150,27 +150,44 @@
                                 <GroupBox Header="Exchange Rate Management">
                                     <StackPanel>
                                         <TextBlock Text="Active Currencies and Exchange Rates" 
-                                                   FontWeight="Bold"/>
+                                                   FontWeight="Bold"
+                                                   Margin="0,0,0,10"/>
 
-                                        <DataGrid Height="200">
+                                        <DataGrid Height="200"
+                                                  AutoGenerateColumns="False"
+                                                  CanUserAddRows="False"
+                                                  CanUserDeleteRows="False"
+                                                  IsReadOnly="False"
+                                                  SelectionMode="Single
+"                                                 ItemsSource="{Binding ExchangeRateManagement.CurrencyExchangeRates}">
                                             <DataGrid.Columns>
-                                                <DataGridCheckBoxColumn Header="Active" 
-                                                  Width="60"/>
-                                                <DataGridTextColumn Header="Currency" 
-                                              Width="100"/>
-                                                <DataGridTextColumn Header="Code" 
-                                              Width="60"/>
-                                                <DataGridTextColumn Header="Exchange Rate" 
-                                              Width="*"/>
+                                                <DataGridTextColumn Header="From(Currency)"
+                                                                    Binding="{Binding FromCurrencyName}"
+                                                                    Width="100"/>
+                                                <DataGridTextColumn Header="To(Currency)"
+                                                                    Binding="{Binding ToCurrencyName}"
+                                                                    Width="100"/>
+                                                <DataGridTextColumn Header="Exchange Rate"
+                                                                    Binding="{Binding ExchangeRate, StringFormat=N4}"
+                                                                    Width="*">
+                                                    <DataGridTextColumn.ElementStyle>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="TextAlignment" Value="Right"/>
+                                                        </Style>
+                                                    </DataGridTextColumn.ElementStyle>
+                                                </DataGridTextColumn>
                                             </DataGrid.Columns>
                                         </DataGrid>
 
                                         <DockPanel Margin="0,15">
-                                            <Button Content="Add Currency" HorizontalAlignment="Left"/>
-                                            <Button Content="Update Rates" HorizontalAlignment="Right"/>
+                                            <Button Content="Add Currency" 
+                                                    HorizontalAlignment="Right"
+                                                    Command="{Binding ExchangeRateManagement.AddCurrencyCommand}"
+                                                    Padding="10,5"/>
+
                                         </DockPanel>
 
-                                        <GroupBox Header="Quick Rate Update" Margin="5,15,5,0">
+                                        <GroupBox Header="Quick Rate Actions" Margin="5,15,5,0">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
@@ -184,19 +201,46 @@
                                                     <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
 
-                                                <TextBlock Text="From:" Grid.Column="0"/>
-                                                <ComboBox Grid.Column="1"/>
-                                                <TextBlock Text="To:" Grid.Column="2"/>
-                                                <ComboBox Grid.Column="3"/>
+                                                <TextBlock Text="From:" 
+                                                           Grid.Column="0"
+                                                           VerticalAlignment="Center"
+                                                           Margin="0,0,5,0"/>
+                                                <ComboBox Grid.Column="1"
+                                                          Margin="0,5"
+                                                          ItemsSource="{Binding ExchangeRateManagement.Currencies}"
+                                                          SelectedItem="{Binding ExchangeRateManagement.SelectedFromCurrency}"
+                                                          DisplayMemberPath="CurrencyName"/>
 
-                                                <TextBlock Text="Rate:" Grid.Row="1"/>
-                                                <TextBox Grid.Row="1" Grid.Column="1"/>
+                                                <TextBlock Text="To:" 
+                                                           Grid.Column="2"
+                                                           VerticalAlignment="Center"
+                                                           Margin="10,0,5,0"/>
+                                                <ComboBox Grid.Column="3"
+                                                          Margin="0,5"
+                                                          ItemsSource="{Binding ExchangeRateManagement.Currencies}"
+                                                          SelectedItem="{Binding ExchangeRateManagement.SelectedToCurrency}"
+                                                          DisplayMemberPath="CurrencyName"/>
+
+                                                <TextBlock Text="Rate:" 
+                                                           Grid.Row="1"
+                                                           Grid.Column="0"
+                                                           VerticalAlignment="Center"
+                                                           Margin="0,5,5,5"/>
+                                                <TextBox Grid.Row="1" 
+                                                         Grid.Column="1"
+                                                         Margin="0,5"
+                                                         Text="{Binding ExchangeRateManagement.QuickUpdateRate, 
+                                                                UpdateSourceTrigger=PropertyChanged,
+                                                                StringFormat=N4,
+                                                                ValidatesOnExceptions=True}"/>
+
                                                 <Button Content="Update"
-                                                    Padding="10,5,10,5"
-                                                    HorizontalAlignment="Right"
-                                                    Margin="0,0,0,0"
-                                                    Grid.Row="2" 
-                                                    Grid.Column="3"/>   
+                                                        Grid.Row="2" 
+                                                        Grid.Column="3"
+                                                        Padding="10,5"
+                                                        HorizontalAlignment="Right"
+                                                        Margin="0,5,0,0"
+                                                        Command="{Binding ExchangeRateManagement.UpdateCurrencyExchangeRateCommand}"/>
                                             </Grid>
                                         </GroupBox>
                                     </StackPanel>
@@ -211,7 +255,7 @@
                                                 Width="100" 
                                                 Height="30" 
                                                 Margin="5"
-                                                Background="{Binding selectedPrimaryColor, UpdateSourceTrigger=PropertyChanged}"
+                                                Background="Navy"
                                                 Foreground="White"
                                                 Command="{Binding SaveCommand}"/>
                                         <Button Content="Reset" 
@@ -224,18 +268,19 @@
                             </StackPanel>
                         </Grid>
                     </ScrollViewer>
-                    
+
                 </TabItem>
                 <TabItem Header="User Inteface">
                     <ScrollViewer VerticalScrollBarVisibility="Auto" >
                         <Grid Margin="10">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="48*"/>
+                                <ColumnDefinition Width="380*"/>
+                                <ColumnDefinition Width="427*"/>
                             </Grid.ColumnDefinitions>
 
                             <!-- Left Column - Typography and Colors -->
-                            <StackPanel Grid.Column="0">
+                            <StackPanel Grid.Column="0" Grid.ColumnSpan="2">
                                 <GroupBox Header="Typography">
                                     <StackPanel>
                                         <DockPanel>
@@ -268,7 +313,7 @@
                                             <ComboBox ItemsSource="{Binding PrimaryColors}"
                                                       SelectedItem="{Binding SelectedPrimaryColor}"
                                                       DisplayMemberPath="DisplayName">
-                                                
+
                                             </ComboBox>
                                         </DockPanel>
 
@@ -276,7 +321,7 @@
                                             <TextBlock Text="Background:" Width="100"  VerticalAlignment="Center"/>
                                             <ComboBox ItemsSource="{Binding BackgroundColors}"
                                                       SelectedItem="{Binding SelectedBackgroundColor}">
-                                                
+
                                             </ComboBox>
                                         </DockPanel>
                                     </StackPanel>
@@ -299,7 +344,7 @@
                             </StackPanel>
 
                             <!-- Right Column - Layout and Interaction -->
-                            <StackPanel Grid.Column="1">
+                            <StackPanel Grid.Column="2">
                                 <!-- Rest of your existing right column content -->
                                 <GroupBox Header="Layout and Spacing">
                                     <!-- Existing content -->
@@ -325,7 +370,7 @@
                                             <ComboBox ItemsSource="{Binding BackgroundImages}"
                                                       SelectedItem="{Binding SelectedBackgroundImage}"
                                                       DisplayMemberPath="DisplayName">
-                                               
+
                                             </ComboBox>
                                         </DockPanel>
                                     </StackPanel>
@@ -353,7 +398,7 @@
                                             Width="100" 
                                             Height="30" 
                                             Margin="5"
-                                            Background="{Binding selectedPrimaryColor}"
+                                            Background="Navy"
                                             Foreground="White"
                                             Command="{Binding SaveCommand}"/>
                                     <Button Content="Reset"

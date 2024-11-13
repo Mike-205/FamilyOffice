@@ -13,6 +13,9 @@ namespace Family_Office
         {
             InitializeComponent();
             DatabaseHelper.InitializeDatabase();
+            DatabaseDebugHelper.VerifyTableCreation();
+            DatabaseDebugHelper.PrintAllTables();
+            CurrencyInitialization.InitializeBaseCurrencies();
             MainFrame.Navigate(new LoginPage());
         }
     }

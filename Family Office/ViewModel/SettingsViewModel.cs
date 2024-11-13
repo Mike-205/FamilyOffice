@@ -1,13 +1,12 @@
 ﻿using Family_Office.DataAccess;
 using Family_Office.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows;
 using System.Diagnostics;
+using Family_Office.ViewModels;
 
 namespace Family_Office.ViewModel
 {
@@ -30,15 +29,30 @@ namespace Family_Office.ViewModel
         private KeyValueItem<string> _selectedPrimaryColor;
         private KeyValueItem<string> _selectedBackgroundColor;
 
+        private ExchangeRateManagementViewModel _exchangeRateManagementViewModel;
+
         // Constructor
         public SettingsViewModel()
         {
+            System.Diagnostics.Debug.WriteLine("Started Initialization");
+            _exchangeRateManagementViewModel = new ExchangeRateManagementViewModel();
+            System.Diagnostics.Debug.WriteLine("Initialized ExchangeRate viewModel");
             InitializeCommands();
             LoadSettings();
             //ExecuteReset();
         }
 
         #region Properties
+
+        public ExchangeRateManagementViewModel ExchangeRateManagement
+        {
+            get => _exchangeRateManagementViewModel;
+            set
+            {
+                _exchangeRateManagementViewModel = value;
+                OnPropertyChanged(nameof(ExchangeRateManagement));
+            }
+        }
 
         public bool IsDirty
         {
@@ -325,7 +339,7 @@ namespace Family_Office.ViewModel
 
         private bool CanExecuteSave()
         {
-            return IsDirty;
+            return true;
         }
 
         private void ExecuteSave()

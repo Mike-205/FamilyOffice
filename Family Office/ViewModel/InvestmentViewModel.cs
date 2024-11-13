@@ -90,30 +90,53 @@ public class InvestmentPageViewModel : InvestmentViewModel
         IsDataLoading = true;
         try
         {
-            // Load gold investments
-            var goldInvestments = GoldInvestmentDataAccess.GetGoldInvestments();
-            var goldListItems = goldInvestments.Select(g => new InvestmentListItem
+            // Load gold investments with error handling
+            List<InvestmentListItem> goldListItems = new List<InvestmentListItem>();
+            try
             {
-                Id = g.GoldInvestmentID,
-                InvestmentType = "Gold",
-                Type = g.GoldType,
-                IsGoldInvestment = true
-            });
-
-            // Load property investments (assuming you have PropertyInvestmentDataAccess)
-            var propertyInvestments = PropertyInvestmentDataAccess.GetPropertyInvestments();
-            var propertyListItems = propertyInvestments.Select(p => new InvestmentListItem
+                var goldInvestments = GoldInvestmentDataAccess.GetGoldInvestments();
+                goldListItems = goldInvestments
+                    .Where(g => g != null) // Filter out any null records
+                    .Select(g => new InvestmentListItem
+                    {
+                        Id = g.GoldInvestmentID,
+                        InvestmentType = "Gold",
+                        Type = g.GoldType ?? "Unknown Type", // Provide default value if null
+                        IsGoldInvestment = true
+                    })
+                    .ToList();
+            }
+            catch (Exception ex)
             {
-                 Id = p.PropertyInvestmentID,
-                 InvestmentType = "Property",
-                 Type = p.PropertyType,
-                 IsGoldInvestment = false
-             });
+                Debug.WriteLine($"Error loading gold investments: {ex.Message}");
+                // Continue execution to load property investments
+            }
 
-            // Combine both types of investments and create a new ObservableCollection
+            // Load property investments with error handling
+            List<InvestmentListItem> propertyListItems = new List<InvestmentListItem>();
+            try
+            {
+                var propertyInvestments = PropertyInvestmentDataAccess.GetPropertyInvestments();
+                propertyListItems = propertyInvestments
+                    .Where(p => p != null) // Filter out any null records
+                    .Select(p => new InvestmentListItem
+                    {
+                        Id = p.PropertyInvestmentID,
+                        InvestmentType = "Property",
+                        Type = p.PropertyType ?? "Unknown Type", // Provide default value if null
+                        IsGoldInvestment = false
+                    })
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error loading property investments: {ex.Message}");
+                // Continue execution to combine available data
+            }
+
+            // Combine available data
             var combinedList = goldListItems.Concat(propertyListItems).ToList();
             InvestmentsCollection = new ObservableCollection<InvestmentListItem>(combinedList);
-
             NoDataAvailable = !InvestmentsCollection.Any();
         }
         catch (Exception ex)
@@ -359,9 +382,9 @@ public class GoldInvestmentViewModel : InvestmentViewModel
     private ObservableCollection<string> _goldTypes;
     private ObservableCollection<string> _countries;
     private ObservableCollection<string> _storageLocations;
-    private ObservableCollection<string> _inTheNameOf;
-    private ObservableCollection<string> _currency;
-    private ObservableCollection<string> _purchasedVia;
+    private ObservableCollection<string> _inCareOf;
+    private ObservableCollection<string> _currencies;
+    private ObservableCollection<string> _purchaseVia;
     private byte[] _selectedDocument;
 
     public event EventHandler SaveGoldInvCompleted;
@@ -417,32 +440,32 @@ public class GoldInvestmentViewModel : InvestmentViewModel
         }
     }
 
-    public ObservableCollection<string> InTheNameOf
+    public ObservableCollection<string> InCareOf
     {
-        get => _inTheNameOf;
+        get => _inCareOf;
         set
         {
-            _inTheNameOf = value;
-            OnPropertyChanged(nameof(InTheNameOf));
+            _inCareOf = value;
+            OnPropertyChanged(nameof(_inCareOf));
         }
     }
 
-    public ObservableCollection<string> Currency
+    public ObservableCollection<string> Currencies
     {
-        get => _currency;
+        get => _currencies;
         set
         {
-            _currency = value;
-            OnPropertyChanged(nameof(Currency));
+            _currencies = value;
+            OnPropertyChanged(nameof(Currencies));
         }
     }
 
     public ObservableCollection<string> PurchasedVia
     {
-        get => _purchasedVia;
+        get => _purchaseVia;
         set
         {
-            _purchasedVia = value;
+            _purchaseVia = value;
             OnPropertyChanged(nameof(PurchasedVia));
         }
     }
@@ -475,8 +498,10 @@ public class GoldInvestmentViewModel : InvestmentViewModel
                GInvestment.TotalPerGram > 0 &&
                !string.IsNullOrEmpty(GInvestment.StorageLocation) &&
                !string.IsNullOrEmpty(GInvestment.Country) &&
-               !string.IsNullOrEmpty(GInvestment.InCareOf);
+               !string.IsNullOrEmpty(GInvestment.InCareOf) &&
+               !string.IsNullOrEmpty(GInvestment.Currency);
     }
+
 
     private void ExecuteSave()
     {
@@ -566,12 +591,11 @@ public class GoldInvestmentViewModel : InvestmentViewModel
             "Vault"
         };
 
-        Currency = new ObservableCollection<string>
+        Currencies = new ObservableCollection<string>
         {
             "USD",
             "EUR",
-            "GBP",
-            "CHF"
+            "INR"
         };
 
         // These collections might be loaded from a database in a real application
@@ -584,7 +608,7 @@ public class GoldInvestmentViewModel : InvestmentViewModel
             "Germany"
         };
 
-        InTheNameOf = new ObservableCollection<string>
+        InCareOf = new ObservableCollection<string>
         {
             // This should be populated with family members or entities
             "Self",

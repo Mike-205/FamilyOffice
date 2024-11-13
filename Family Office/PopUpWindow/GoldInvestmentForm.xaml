@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Family_Office.PopUpWindow"
         mc:Ignorable="d"
         Height="650" Width="800">
+    
     <Window.Resources>
         <Style x:Key="HeaderStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="24"/>
@@ -73,7 +74,7 @@
                                 </DockPanel>
                                 <DockPanel>
                                     <TextBlock Text="In the Name Of:"/>
-                                    <ComboBox ItemsSource="{Binding InTheNameOf}"
+                                    <ComboBox ItemsSource="{Binding InCareOf}"
                                             SelectedItem="{Binding GInvestment.InCareOf, UpdateSourceTrigger=PropertyChanged}"
                                             Style="{StaticResource InputControlStyle}"/>
                                 </DockPanel>
@@ -103,8 +104,8 @@
                                     <DockPanel>
                                         <ComboBox Width="80" 
                                                 DockPanel.Dock="Right" 
-                                                ItemsSource="{Binding Currency}"
-                                                SelectedItem="{Binding SelectedCurrency, UpdateSourceTrigger=PropertyChanged}"
+                                                ItemsSource="{Binding Currencies}"
+                                                SelectedItem="{Binding GInvestment.Currency, UpdateSourceTrigger=PropertyChanged}"
                                                 Margin="5"/>
                                         <TextBox Text="{Binding GInvestment.TotalPerGram, UpdateSourceTrigger=PropertyChanged}"
                                                 Style="{StaticResource InputControlStyle}"/>
@@ -163,9 +164,10 @@
                                 <DockPanel>
                                     <TextBlock Text="Notes:"/>
                                     <TextBox TextWrapping="Wrap" 
-                                            AcceptsReturn="True" 
-                                            Height="80" 
-                                            Margin="5"/>
+                                             Text="{Binding GInvestment.Notes, UpdateSourceTrigger=PropertyChanged}"
+                                             AcceptsReturn="True" 
+                                             Height="80" 
+                                             Margin="5"/>
                                 </DockPanel>
                             </StackPanel>
                         </GroupBox>

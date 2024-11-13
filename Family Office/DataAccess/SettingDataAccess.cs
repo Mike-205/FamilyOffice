@@ -6,7 +6,7 @@ namespace Family_Office.DataAccess
 
     public class SettingDataAccess
     {
-        private static string ConnectionString = "Data Source=example5.db;Version=3;";
+        private static string ConnectionString = "Data Source=example11.db;Version=3;";
 
         public static Settings GetSettings()
         {

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Family_Office.PopUpWindow"
         mc:Ignorable="d"
         Height="450" Width="800">
+    
     <Window.Resources>
         <Style x:Key="HeaderStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="24"/>
@@ -106,7 +107,6 @@
                                 <DockPanel>
                                     <TextBlock Text="Price per Unit:"/>
                                     <TextBox Text="{Binding PInvestment.PricePerUnit, UpdateSourceTrigger=PropertyChanged}"
-                                            IsReadOnly="True" 
                                             Style="{StaticResource InputControlStyle}"/>
                                 </DockPanel>
                             </StackPanel>

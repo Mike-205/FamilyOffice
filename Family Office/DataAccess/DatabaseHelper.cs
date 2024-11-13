@@ -6,7 +6,7 @@ namespace Family_Office.DataAccess
 {
     public static class DatabaseHelper
     {
-        private static readonly string DbFilePath = "example5.db"; // Path to SQLite DB file
+        private static readonly string DbFilePath = "example11.db"; // Path to SQLite DB file
 
         public static SQLiteConnection GetConnection()
         {
@@ -23,6 +23,7 @@ namespace Family_Office.DataAccess
             CreateTables();
         }
 
+
         private static void CreateTables()
         {
             CreateUserTable();
@@ -31,7 +32,8 @@ namespace Family_Office.DataAccess
             CreateDocumentsTable();
             CreateGoalsTable();
             CreateCashAssetTable();
-            CreateCurrencyTypesTable();
+            CreateCurrencyTable();
+            CreateExchangeRatesTable();
             CreateGoldInvestmentTable();
             CreatePropertyInvestmentTable();
             CreateSettingsTable();
@@ -169,16 +171,27 @@ namespace Family_Office.DataAccess
             ExecuteTableCreation(query, "CashAsset");
         }
 
-        public static void CreateCurrencyTypesTable()
+        public static void CreateExchangeRatesTable()
         {
             string query = @"
                 CREATE TABLE IF NOT EXISTS CurrencyTypes (
-                    CurrencyCode TEXT PRIMARY KEY,
-                    CurrencyName TEXT,
-                    CurrencySymbol TEXT,
+                    CurrencyExchangeRateID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    FromCurrencyName TEXT,
+                    ToCurrencyName TEXT,
                     ExchangeRate REAL
                 );";
-            ExecuteTableCreation(query, "CurrencyTypes");
+            ExecuteTableCreation(query, "CurrencyExchangeRates");
+        }
+
+        public static void CreateCurrencyTable()
+        {
+            string query = @"
+                CREATE TABLE IF NOT EXISTS Currency (
+                    CurrencyID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    CurrencyName TEXT,
+                    CurrencySymbol TEXT
+                );";
+            ExecuteTableCreation(query, "Currency");
         }
 
         public static void CreateGoldInvestmentTable()
@@ -187,17 +200,18 @@ namespace Family_Office.DataAccess
                 CREATE TABLE IF NOT EXISTS GoldInvestment (
                     GoldInvestmentID INTEGER PRIMARY KEY AUTOINCREMENT,
                     GoldType TEXT,
+                    InCareOF TEXT,
+                    PurchaseDate TEXT,
                     TotalGrams REAL,
                     Carat INTEGER,
                     TotalPerGram REAL,
+                    Currency TEXT,
+                    PurchaseVia TEXT,
                     StorageLocation TEXT,
                     Country TEXT,
                     AnnualStorageCost REAL,
-                    AnnualMaintenanceCost REAL,
                     Document BLOB,
-                    PurchaseDate TEXT,
-                    InCareOf TEXT,
-                    Currency TEXT
+                    Notes TEXT
                 );";
             ExecuteTableCreation(query, "GoldInvestment");
         }
@@ -219,7 +233,8 @@ namespace Family_Office.DataAccess
                     BrokerCost REAL,
                     Ownership TEXT,
                     Document BLOB,
-                    UnitOfMeasurement TEXT
+                    UnitOfMeasurement TEXT,
+                    PurchaseDate TEXT
                 );";
             ExecuteTableCreation(query, "PropertyInvestment");
         }
@@ -298,6 +313,121 @@ namespace Family_Office.DataAccess
                     OpeningBalance REAL
                 );";
             ExecuteTableCreation(query, "BankAccount");
+        }
+    }
+
+    public static class DatabaseDebugHelper
+    {
+        public static void PrintAllTables()
+        {
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                connection.Open();
+                System.Diagnostics.Debug.WriteLine("\n=== Database Tables Information ===");
+
+                // Get all tables
+                var tableCmd = new SQLiteCommand(
+                    @"SELECT name FROM sqlite_master 
+                  WHERE type='table' 
+                  ORDER BY name;", connection);
+
+                using (var reader = tableCmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string tableName = reader.GetString(0);
+                        System.Diagnostics.Debug.WriteLine($"\n=== Table: {tableName} ===");
+
+                        // Get table schema
+                        var schemaCmd = new SQLiteCommand(
+                            $"PRAGMA table_info({tableName});", connection);
+
+                        using (var schemaReader = schemaCmd.ExecuteReader())
+                        {
+                            Console.WriteLine("Columns:");
+                            while (schemaReader.Read())
+                            {
+                                string columnName = schemaReader.GetString(1);
+                                string dataType = schemaReader.GetString(2);
+                                bool notNull = schemaReader.GetBoolean(3);
+                                System.Diagnostics.Debug.WriteLine($"  - {columnName} ({dataType}){(notNull ? " NOT NULL" : "")}");
+                            }
+                        }
+
+                        // Get row count
+                        var countCmd = new SQLiteCommand(
+                            $"SELECT COUNT(*) FROM {tableName};", connection);
+                        var count = Convert.ToInt32(countCmd.ExecuteScalar());
+                        System.Diagnostics.Debug.WriteLine($"Row count: {count}");
+
+                        // If it's Currency or CurrencyTypes table, show the data
+                        if (tableName == "Currency" || tableName == "CurrencyTypes")
+                        {
+                            var dataCmd = new SQLiteCommand($"SELECT * FROM {tableName};", connection);
+                            using (var dataReader = dataCmd.ExecuteReader())
+                            {
+                                System.Diagnostics.Debug.WriteLine("\nData:");
+                                var columns = new List<string>();
+                                for (int i = 0; i < dataReader.FieldCount; i++)
+                                {
+                                    columns.Add(dataReader.GetName(i));
+                                }
+                                System.Diagnostics.Debug.WriteLine("  " + string.Join(" | ", columns));
+                                System.Diagnostics.Debug.WriteLine("  " + new string('-', columns.Count * 15));
+
+                                while (dataReader.Read())
+                                {
+                                    var rowData = new List<string>();
+                                    for (int i = 0; i < dataReader.FieldCount; i++)
+                                    {
+                                        rowData.Add(dataReader.IsDBNull(i) ? "NULL" : dataReader.GetValue(i).ToString());
+                                    }
+                                    System.Diagnostics.Debug.WriteLine("  " + string.Join(" | ", rowData));
+                                }
+                            }
+                        }
+                    }
+                }
+                System.Diagnostics.Debug.WriteLine("\n=== End of Database Information ===\n");
+            }
+        }
+
+        public static void VerifyTableCreation()
+        {
+            string[] expectedTables = new[]
+            {
+            "Currency",
+            "CurrencyTypes",
+            "User",
+            "FamilyOffice",
+            "FamilyMember",
+            "Documents",
+            "Goals",
+            "CashAsset",
+            "GoldInvestment",
+            "PropertyInvestment",
+            "Settings",
+            "ThirdParty",
+            "BankAccount"
+        };
+
+            using (var connection = DatabaseHelper.GetConnection())
+            {
+                connection.Open();
+                System.Diagnostics.Debug.WriteLine("\n=== Verifying Table Creation ===");
+
+                foreach (string tableName in expectedTables)
+                {
+                    var cmd = new SQLiteCommand(
+                        "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=@tableName;",
+                        connection);
+                    cmd.Parameters.AddWithValue("@tableName", tableName);
+                    int exists = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    Console.WriteLine($"Table {tableName}: {(exists > 0 ? "Created ✓" : "Missing ✗")}");
+                }
+                System.Diagnostics.Debug.WriteLine("=== End of Table Verification ===\n");
+            }
         }
     }
 }

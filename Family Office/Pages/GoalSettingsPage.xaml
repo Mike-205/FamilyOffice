@@ -5,194 +5,195 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Family_Office.pages"
       mc:Ignorable="d" 
-      Background="White"
-      d:DesignHeight="650" d:DesignWidth="800"
-      Title="GoalSettingsPage">
+      Title="Goal Settings"
+      d:DesignHeight="450" 
+      d:DesignWidth="800">
 
     <Page.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="10"/>
+        <!-- Colors -->
+        <SolidColorBrush x:Key="PrimaryColor" Color="#000080"/>
+        <SolidColorBrush x:Key="SecondaryColor" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#CCCCCC"/>
+        <SolidColorBrush x:Key="BackgroundGray" Color="#f8f9fa"/>
+        <SolidColorBrush x:Key="BorderGray" Color="#dee2e6"/>
+
+        <!-- Common Control Styles -->
+        <Style x:Key="BaseControlStyle">
+            <Setter Property="Control.Margin" Value="5"/>
+            <Setter Property="Control.Height" Value="36"/>
+        </Style>
+
+        <Style TargetType="Button" BasedOn="{StaticResource BaseControlStyle}">
             <Setter Property="Width" Value="120"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Foreground" Value="#FFFFFF"/>
-            <!--000000-->
-            <Setter Property="Background" Value="#000080"/>
-            <!--e2e2e2-->
+            <Setter Property="Foreground" Value="{StaticResource SecondaryColor}"/>
+            <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
         </Style>
-        <Style TargetType="Label">
-            <Setter Property="Margin" Value="5,5,5,0"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#000080"/>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Height" Value="30"/>
+
+        <Style TargetType="TextBox" BasedOn="{StaticResource BaseControlStyle}">
             <Setter Property="Padding" Value="5"/>
-        </Style>
-        <Style TargetType="ComboBox">
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Height" Value="30"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
-        <Style TargetType="DatePicker">
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Height" Value="30"/>
+
+        <Style TargetType="ComboBox" BasedOn="{StaticResource BaseControlStyle}">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
-        <Style TargetType="GroupBox">
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="BorderThickness" Value="1.5"/>
-            <Setter Property="BorderBrush" Value="#CCCCCC"/>
-        </Style>
+
+        <!-- Text Styles -->
         <Style TargetType="TextBlock">
-            <Setter Property="Margin" Value="5,5,5,0"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#000080"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryColor}"/>
+        </Style>
+
+        <!-- GroupBox Style -->
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="0,10"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
         </Style>
     </Page.Resources>
 
     <Grid>
+        <!-- Background Image -->
         <Image Source="/Images/backgroundImage1.jpg" 
-           Stretch="UniformToFill"
-           Opacity="0.8"/>
+               Stretch="UniformToFill"
+               Opacity="0.8"/>
 
         <DockPanel>
-            <!-- Docked Header -->
+            <!-- Header -->
             <Border DockPanel.Dock="Top"
-                Background="White"
-                Opacity=".9"
-                Padding="20,10">
+                    Background="{StaticResource SecondaryColor}"
+                    Opacity="0.9"
+                    Padding="20,10">
                 <TextBlock Text="Goals and Vision"
-                      FontSize="24"
-                      FontWeight="Bold"/>
+                          FontSize="24"
+                          FontWeight="Bold"/>
             </Border>
 
-            <Border Margin="20" CornerRadius="6" Padding="10" Background="White" Opacity=".85">
-                <!-- Main Content -->
+            <!-- Main Content Area -->
+            <Border Margin="20" 
+                    CornerRadius="6" 
+                    Padding="20" 
+                    Background="{StaticResource SecondaryColor}" 
+                    Opacity="0.85">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <!-- Info Section -->
-                        <DockPanel Margin="0,0,0,0">
+                        <!-- Description Section -->
+                        <DockPanel>
                             <TextBlock Text="Set your financial goals and track progress across multiple years"
-                                FontSize="14"/>
+                                     FontSize="14"
+                                     Margin="0,0,10,20"/>
                             <Button Content="?" 
-                                    Width="24" 
-                                    Height="24"
-                                    Margin="0,4,0,0"
-                                    ToolTip="Set financial visions for specific years, track multiple years, and calculate compounding growth"/>
+                                   Width="24" 
+                                   Height="24"
+                                   ToolTip="Set financial visions for specific years, track multiple years, and calculate compounding growth"/>
                         </DockPanel>
 
-                        <!-- Vision Entries -->
-                        <GroupBox Header="Vision Entries" Margin="0,20,0,10">
+                        <!-- Vision Entries Section -->
+                        <GroupBox Header="Vision Entries">
                             <StackPanel>
-                                <!-- Vision Entry 1 -->
+                                <!-- Vision Entries List -->
+                                <ItemsControl ItemsSource="{Binding Goals}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{StaticResource BackgroundGray}" 
+                                                    BorderBrush="{StaticResource BorderGray}" 
+                                                    BorderThickness="1"
+                                                    CornerRadius="4"
+                                                    Padding="15"
+                                                    Margin="0,0,0,10">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1.5*"/>
+                                                        <!-- Vision Year -->
+                                                        <ColumnDefinition Width="2*"/>
+                                                        <!-- Target Amount -->
+                                                        <ColumnDefinition Width="1.5*"/>
+                                                        <!-- Currency -->
+                                                        <ColumnDefinition Width="2*"/>
+                                                        <!-- Compounding Rate -->
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <!-- Remove Button -->
+                                                    </Grid.ColumnDefinitions>
 
-                                <!-- Add New Vision Button -->
-                                <!-- Vision Entry 1 -->
-                                <Border Background="#f8f9fa" 
-                                        BorderBrush="#dee2e6" 
-                                        BorderThickness="1"
-                                        CornerRadius="4"
-                                        Padding="15">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="3*"/>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
+                                                    <!-- Vision Year -->
+                                                    <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                                                        <TextBlock Text="Vision Year"/>
+                                                        <TextBox Text="{Binding VisionYear, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    </StackPanel>
 
-                                        <!-- Vision Year -->
-                                        <StackPanel Grid.Column="0" Margin="0,0,15,0">
-                                            <TextBlock Text="Vision Year" 
-                                                       Margin="0,0,0,8"
-                                                       FontWeight="SemiBold"/>
-                                            <ComboBox Height="36">
-                                                <ComboBoxItem Content="2024"/>
-                                                <ComboBoxItem Content="2025"/>
-                                                <ComboBoxItem Content="2026"/>
-                                                <ComboBoxItem Content="2027"/>
-                                                <ComboBoxItem Content="2028"/>
-                                            </ComboBox>
-                                        </StackPanel>
+                                                    <!-- Target Amount -->
+                                                    <StackPanel Grid.Column="1" Margin="0,0,15,0">
+                                                        <TextBlock Text="Target Amount"/>
+                                                        <TextBox Text="{Binding TargetAmount, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                                                    </StackPanel>
 
-                                        <!-- Target Amount -->
-                                        <StackPanel Grid.Column="1" Margin="0,0,5,0">
-                                            <TextBlock Text="Target Amount" 
-                                                       Margin="0,0,0,8"
-                                                       FontWeight="SemiBold"/>
-                                            <TextBox Height="36" Text="100,000" TextChanged="TextBox_TextChanged" VerticalContentAlignment="Center"/>
-                                        </StackPanel>
+                                                    <!-- Currency -->
+                                                    <StackPanel Grid.Column="2" Margin="0,0,15,0">
+                                                        <TextBlock Text="Currency"/>
+                                                        <ComboBox SelectedIndex="0">
+                                                            <ComboBoxItem Content="USD"/>
+                                                            <ComboBoxItem Content="EUR"/>
+                                                            <ComboBoxItem Content="INR"/>
+                                                        </ComboBox>
+                                                    </StackPanel>
 
-                                        <!-- Currency -->
-                                        <StackPanel Grid.Column="2" Margin="0,0,15,0">
-                                            <TextBlock Text="Currency" 
-                                                       Margin="0,0,0,8"
-                                                       FontWeight="SemiBold"/>
-                                            <ComboBox Height="36">
-                                                <ComboBoxItem Content="USD"/>
-                                                <ComboBoxItem Content="EUR"/>
-                                                <ComboBoxItem Content="INR"/>
-                                            </ComboBox>
-                                        </StackPanel>
+                                                    <!-- Compounding Rate -->
+                                                    <StackPanel Grid.Column="3" Margin="0,0,15,0">
+                                                        <TextBlock Text="Compounding Rate (%)"/>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBox Grid.Column="0" 
+                                                                     Text="{Binding RateOfCompounding, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+                                                            <TextBlock Grid.Column="1" 
+                                                                      Text="%" 
+                                                                      VerticalAlignment="Center"
+                                                                      Margin="5,0,0,8"/>
+                                                        </Grid>
+                                                    </StackPanel>
 
-                                        <!-- Remove Button -->
-                                        <Button Grid.Column="3" 
-                                                Content="🗑️"
-                                                VerticalContentAlignment="Top"
-                                                FontSize="20"
-                                                Width="36"
-                                                Height="36"
-                                                Margin="0,24,0,0"
-                                                Background="#e2e2e2"
-                                                Foreground="IndianRed"
-                                                BorderBrush="#dee2e6"/>
-                                    </Grid>
-                                </Border>
+                                                    <!-- Remove Button -->
+                                                    <Button Grid.Column="4" 
+                                                            Content="🗑️"
+                                                            Width="36"
+                                                            Height="36"
+                                                            Margin="0,24,0,0"
+                                                            Background="#e2e2e2"
+                                                            Foreground="IndianRed"
+                                                            Command="{Binding DataContext.DeleteGoalCommand, 
+                                                                     RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                            CommandParameter="{Binding GoalID}"/>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
 
                                 <!-- Add New Vision Button -->
                                 <Button Content="+ Add New Vision" 
-                                        HorizontalAlignment="Left"/>
-                            </StackPanel>
-                        </GroupBox>
-
-                        <!-- Compounding Rate Section -->
-                        <GroupBox Header="Compounding Rate" Margin="0,0,0,20">
-                            <StackPanel>
-                                <Grid Margin="0,0,0,15">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel Grid.Column="0">
-                                        <TextBlock Text="Rate of Compounding Required" 
-                                                    Margin="0,0,0,8"/>
-                                        <TextBox Height="36" Width="200"
-                                                 HorizontalAlignment="Left" 
-                                                 VerticalContentAlignment="Center"/>
-                                    </StackPanel>
-
-                                    <TextBlock Text="%" 
-                                               Grid.Column="1"
-                                               VerticalAlignment="Bottom"
-                                               Margin="10,0,0,8"
-                                               FontSize="16"/>
-                                </Grid>
+                                        HorizontalAlignment="Left"
+                                        Margin="0,10,0,0"
+                                        Command="{Binding AddGoalCommand}"/>
                             </StackPanel>
                         </GroupBox>
 
                         <!-- Action Buttons -->
                         <StackPanel Orientation="Horizontal" 
-                                    HorizontalAlignment="Right">
+                                  HorizontalAlignment="Right"
+                                  Margin="0,20,0,0">
                             <Button Content="Save Changes"
-                                    Margin="0,0,10,0"/>
-                            <Button Content="Cancel"
                                     Margin="0,0,10,0"
+                                    Command="{Binding SaveChangesCommand}"/>
+                            <Button Content="Clear All"
                                     Background="#e2e2e2"
-                                    Foreground="#000000"/>
+                                    Foreground="#000000"
+                                    Command="{Binding CancelCommand}"/>
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>

@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Family_Office.Models
 {
     public class PropertyInvestment
     {
+        public PropertyInvestment()
+        {
+            // Initialize PurchaseDate to current date by default
+            PurchaseDate = DateTime.Today;
+        }
+
         public int PropertyInvestmentID { get; set; }
         public string PropertyType { get; set; }
         public string Purpose { get; set; }
@@ -22,5 +23,6 @@ namespace Family_Office.Models
         public string Ownership { get; set; }
         public byte[] Document { get; set; }
         public string UnitOfMeasurement { get; set; }
+        public DateTime PurchaseDate { get; set; }
     }
 }

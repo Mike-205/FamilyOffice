@@ -1,9 +1,6 @@
 ﻿using Family_Office.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
@@ -65,13 +62,7 @@ namespace Family_Office.ViewModel
             {
                 "USD",
                 "EUR",
-                "GBP",
-                "CAD",
-                "AUD",
-                "CHF",
-                "JPY",
-                "SGD",
-                "HKD"
+                "INR"
             };
 
             Locations = new ObservableCollection<string>

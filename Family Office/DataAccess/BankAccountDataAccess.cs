@@ -1,16 +1,13 @@
 ﻿using Family_Office.Models;
-using System;
-using System.Collections.Generic;
+
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Family_Office.DataAccess
 {
     internal class BankAccountDataAccess
     {
-        private static string ConnectionString = "Data Source=example5.db;Version=3;";
+        private static string ConnectionString = "Data Source=example11.db;Version=3;";
 
         public static List<BankAccount> GetBankAccounts()
         {
